@@ -115,9 +115,9 @@ const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.
 
   <!-- TRUST BAR -->
   <div class="relative z-10 mx-auto -mt-14 max-w-6xl px-6 md:px-8">
-    <div class="grid grid-cols-2 gap-y-7 rounded-2xl border border-gold/22 bg-navy px-5 py-8 shadow-[0_24px_60px_rgba(8,23,34,0.4)] md:grid-cols-4">
+    <div class="grid grid-cols-1 gap-6 rounded-2xl border border-gold/22 bg-navy px-5 py-8 shadow-[0_24px_60px_rgba(8,23,34,0.4)] md:grid-cols-4 md:gap-y-7">
       {trust.map((t, i) => (
-        <div class:list={["px-4 text-center md:px-6", i % 2 === 0 && "border-r border-white/9 md:border-r", i === trust.length - 1 && "md:border-r-0"]}>
+        <div class:list={["border-b border-white/9 px-4 pb-6 text-center last:border-b-0 last:pb-0 md:border-b-0 md:border-r md:px-6 md:pb-0", i === trust.length - 1 && "md:border-r-0"]}>
           <div class="mb-3 flex justify-center text-gold">
             <Icon path={t.icon} class="h-8 w-8" strokeWidth={1.7} />
           </div>
