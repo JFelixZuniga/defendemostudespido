@@ -243,7 +243,9 @@ const successNext = [
         throw new Error(body.error || 'No pudimos enviar tu consulta.');
       }
       formState.classList.add('hidden');
-      successState.classList.remove('hidden');
+      successState.classList.remove('hidden', 'animate-reveal-up');
+      void successState.offsetWidth;
+      successState.classList.add('animate-reveal-up');
     } catch (err) {
       errorEl.textContent = err instanceof Error ? err.message : 'No pudimos enviar tu consulta. Intenta por WhatsApp.';
       errorEl.classList.remove('hidden');

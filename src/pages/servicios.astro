@@ -33,7 +33,7 @@ const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.
   <section class="mx-auto max-w-6xl px-6 pt-16 md:px-8">
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {services.map((s) => (
-        <a href={`/servicio/${s.slug}`} class="group flex flex-col rounded-2xl border border-[#e8e2d5] bg-white p-7 shadow-[0_4px_14px_rgba(12,34,49,0.04)] transition-all hover:-translate-y-1 hover:border-gold hover:shadow-[0_18px_40px_rgba(12,34,49,0.11)]">
+        <a href={`/servicio/${s.slug}`} class="group flex flex-col rounded-2xl border border-[#e8e2d5] bg-white p-7 shadow-[0_4px_14px_rgba(12,34,49,0.04)] transition-[transform,border-color,box-shadow] hover-fine:-translate-y-1 hover-fine:border-gold hover-fine:shadow-[0_18px_40px_rgba(12,34,49,0.11)]">
           <div class="mb-4.5 flex h-13 w-13 items-center justify-center rounded-xl border border-[#e3dac6] bg-[#f4efe3] text-gold-dark">
             <Icon path={s.iconSvg} class="h-6 w-6" />
           </div>

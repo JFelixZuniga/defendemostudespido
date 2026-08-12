@@ -18,6 +18,16 @@
   --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Source Sans 3", system-ui, sans-serif;
   --font-brand: "Montserrat", sans-serif;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@custom-variant hover-fine {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
 }
 
 @layer base {
@@ -39,8 +49,8 @@
   50% { transform: translateY(-5px); }
 }
 @keyframes navDrop {
-  from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 @keyframes waPulse {
   0% { box-shadow: 0 12px 30px rgba(37,163,90,0.5), 0 0 0 0 rgba(37,163,90,0.45); }
@@ -61,7 +71,7 @@
   animation: waPulse 2.4s ease-out infinite;
 }
 .animate-nav-drop {
-  animation: navDrop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: navDrop 150ms var(--ease-out) both;
 }
 .animate-spin-fast {
   animation: spin 0.7s linear infinite;
@@ -69,6 +79,31 @@
 .animate-shimmer {
   background-size: 200% 100%;
   animation: shimmer 1.3s linear infinite;
+}
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes revealFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-reveal-up {
+  animation: revealUp 350ms var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-wa-pulse {
+    animation: none;
+    box-shadow: 0 12px 30px rgba(37, 163, 90, 0.5), 0 0 0 6px rgba(37, 163, 90, 0.18);
+  }
+  .animate-float {
+    animation: none;
+  }
+  .animate-reveal-up {
+    animation: revealFade 200ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
 }
 
 /* FAQ accordion rows collapse via grid-template-rows toggled by [data-open] */

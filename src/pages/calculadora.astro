@@ -122,7 +122,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
           <h2 class="mb-1.5 font-heading text-2xl font-bold leading-tight text-gold-light">Calcula gratis tu finiquito</h2>
           <p id="step-label" class="text-sm font-semibold text-[#c3d1c8]">Paso 1 de 2 · Completa tus datos</p>
           <div class="mt-4 h-[5px] overflow-hidden rounded-full bg-white/14">
-            <div id="progress-bar" class="h-full rounded-full bg-gradient-to-r from-[#c9a662] to-gold-light transition-all duration-300" style="width:6%"></div>
+            <div id="progress-bar" class="h-full w-full origin-left rounded-full bg-gradient-to-r from-[#c9a662] to-gold-light transition-transform duration-300" style="transform:scaleX(0.06)"></div>
           </div>
         </div>
 
@@ -356,7 +356,8 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
 
   function updateProgress() {
     const filled = [sueldoInput.value, ingresoInput.value, despidoInput.value, selectedCausal].filter(Boolean).length;
-    progressBar.style.width = Math.max(6, (filled / 4) * 100) + '%';
+    const fraction = Math.max(0.06, filled / 4);
+    progressBar.style.transform = `scaleX(${fraction})`;
   }
 
   function showError(msg: string) {
@@ -383,7 +384,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
     arrow.classList.add('hidden');
     submitBtn.disabled = true;
     stepLabel.textContent = 'Paso 2 de 2 · Revisa tu desglose';
-    progressBar.style.width = '100%';
+    progressBar.style.transform = 'scaleX(1)';
 
     window.setTimeout(() => {
       const tope = Math.round(90 * VALOR_UF);
@@ -438,7 +439,9 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
         'https://wa.me/56912345678?text=' +
         encodeURIComponent(`Hola, usé la calculadora y mi finiquito estimado es ${fmt(total)}. Quisiera que revisen mi caso.`);
 
-      resultEl.classList.remove('hidden');
+      resultEl.classList.remove('hidden', 'animate-reveal-up');
+      void resultEl.offsetWidth;
+      resultEl.classList.add('animate-reveal-up');
       btnLabel.textContent = 'CALCULAR MI FINIQUITO';
       spinner.classList.add('hidden');
       arrow.classList.remove('hidden');

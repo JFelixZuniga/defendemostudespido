@@ -78,15 +78,21 @@ const WA_PATH =
   <div class="flex-1 overflow-y-auto px-5 pb-6 pt-2.5">
     <a href="/" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Inicio</a>
     <a href="/nosotros" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Nosotros</a>
-    <button id="drawer-svc-toggle" class="flex min-h-[52px] w-full items-center justify-between border-b border-[#efe9dc] bg-transparent text-left text-base font-semibold uppercase tracking-wide text-navy-text">
-      Servicios
-      <span id="drawer-svc-chevron" class="text-2xl text-gold transition-transform">+</span>
-    </button>
-    <div id="drawer-svc-panel" class="hidden flex-col gap-0 border-b border-[#efe9dc] py-1.5">
-      <a href="/servicios" class="flex min-h-[46px] items-center text-[15px] font-bold text-gold-dark">Ver todos los servicios</a>
-      {services.map((s) => (
-        <a href={`/servicio/${s.slug}`} class="flex min-h-[46px] items-center text-[15px] leading-snug text-[#41525a]">{s.navLabel}</a>
-      ))}
+    <div data-drawer-svc data-open="false" class="border-b border-[#efe9dc]">
+      <button id="drawer-svc-toggle" class="flex min-h-[52px] w-full items-center justify-between bg-transparent text-left text-base font-semibold uppercase tracking-wide text-navy-text">
+        Servicios
+        <span class="faq-chevron flex-shrink-0 text-2xl text-gold transition-transform">+</span>
+      </button>
+      <div class="faq-row">
+        <div>
+          <div class="flex flex-col gap-0 py-1.5">
+            <a href="/servicios" class="flex min-h-[46px] items-center text-[15px] font-bold text-gold-dark">Ver todos los servicios</a>
+            {services.map((s) => (
+              <a href={`/servicio/${s.slug}`} class="flex min-h-[46px] items-center text-[15px] leading-snug text-[#41525a]">{s.navLabel}</a>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
     <a href="/contacto" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Contacto</a>
     <a href="/calculadora" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Calcular Finiquito</a>
@@ -104,8 +110,7 @@ const WA_PATH =
   const scrim = document.getElementById('drawer-scrim');
   const panel = document.getElementById('drawer-panel');
   const svcToggle = document.getElementById('drawer-svc-toggle');
-  const svcPanel = document.getElementById('drawer-svc-panel');
-  const svcChevron = document.getElementById('drawer-svc-chevron');
+  const svcWrapper = document.querySelector('[data-drawer-svc]');
 
   function openDrawer() {
     scrim?.classList.remove('opacity-0', 'invisible');
@@ -114,18 +119,14 @@ const WA_PATH =
   function closeDrawer() {
     scrim?.classList.add('opacity-0', 'invisible');
     panel?.classList.add('translate-x-full');
-    svcPanel?.classList.add('hidden');
-    svcPanel?.classList.remove('flex');
-    if (svcChevron) svcChevron.textContent = '+';
+    svcWrapper?.setAttribute('data-open', 'false');
   }
   openBtn?.addEventListener('click', openDrawer);
   closeBtn?.addEventListener('click', closeDrawer);
   scrim?.addEventListener('click', closeDrawer);
   svcToggle?.addEventListener('click', () => {
-    const isHidden = svcPanel?.classList.contains('hidden');
-    svcPanel?.classList.toggle('hidden');
-    svcPanel?.classList.toggle('flex');
-    if (svcChevron) svcChevron.textContent = isHidden ? '−' : '+';
+    const open = svcWrapper?.getAttribute('data-open') === 'true';
+    svcWrapper?.setAttribute('data-open', open ? 'false' : 'true');
   });
 
   // Sticky header shrink/shadow on scroll (mirrors the source's animated header).
