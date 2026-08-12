@@ -1,0 +1,42 @@
+---
+import { services, waLink, contact } from '../data/services';
+---
+
+<footer class="border-t border-gold/16 bg-navy-dark">
+  <div class="mx-auto max-w-6xl px-6 pb-8 pt-14 md:px-8">
+    <div class="grid grid-cols-1 gap-10 border-b border-white/8 pb-11 md:grid-cols-3 md:gap-12">
+      <div>
+        <p class="max-w-xs text-lg leading-relaxed text-[#8fa0a7] md:text-xl">
+          Defendemos a trabajadores en todo Chile. Nuestra misión es proteger tus derechos laborales y ayudarte a
+          obtener la indemnización que legalmente te corresponde.
+        </p>
+      </div>
+      <div>
+        <div class="mb-4 text-[13px] font-bold tracking-widest text-gold-light">SERVICIOS</div>
+        <div class="flex flex-col gap-2.5">
+          {services.map((s) => (
+            <a href={`/servicio/${s.slug}`} class="text-[14.5px] leading-tight text-[#a9b6b8] hover:text-cream-light">{s.navLabel}</a>
+          ))}
+        </div>
+      </div>
+      <div>
+        <div class="mb-4 text-[13px] font-bold tracking-widest text-gold-light">CONTACTO</div>
+        <div class="flex flex-col gap-2.5 text-[15px] leading-snug text-[#a9b6b8]">
+          <div>WhatsApp: <a href={waLink} target="_blank" rel="noopener noreferrer" class="text-gold-dark">{contact.whatsappDisplay}</a></div>
+          <div>{contact.hours}</div>
+          <div>Correo: <a href={`mailto:${contact.email}`} class="text-gold-dark">{contact.email}</a></div>
+          <div>Instagram: <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer" class="text-gold-dark">{contact.instagram}</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col flex-wrap justify-between gap-3.5 pt-6 text-[13px] text-[#6f8188] md:flex-row md:items-center">
+      <div>© 2026 Abogados Laborales. Todos los derechos reservados.</div>
+      <div class="flex flex-wrap gap-5">
+        <a href="/privacidad" class="text-[#8fa0a7] hover:text-gold-light">Política de privacidad</a>
+        <a href="/cookies" class="text-[#8fa0a7] hover:text-gold-light">Política de cookies</a>
+        <a href="/terminos" class="text-[#8fa0a7] hover:text-gold-light">Términos de uso</a>
+        <button type="button" data-cookie-settings="true" class="text-[#8fa0a7] hover:text-gold-light">Preferencias de cookies</button>
+      </div>
+    </div>
+  </div>
+</footer>

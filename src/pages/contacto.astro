@@ -1,0 +1,256 @@
+---
+// SSR per explicit product requirement: this page's form round-trips
+// through /api/contact (also prerender=false), which sends mail via Resend.
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { services, waLink, contact } from '../data/services';
+
+const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
+const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
+const CLOCK_ICON = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+const MAIL_ICON = '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>';
+const IG_ICON = '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/>';
+const LOCK_ICON = '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>';
+
+const contactInfo = [
+  { label: 'HORARIO DE ATENCIÓN', value: 'Lunes a viernes, 8:30 a 18:30 hrs', icon: CLOCK_ICON },
+  { label: 'CORREO', value: contact.email, icon: MAIL_ICON },
+  { label: 'INSTAGRAM', value: contact.instagram, icon: IG_ICON },
+];
+
+const successNext = [
+  { n: '1', text: 'Revisamos tu relato y los antecedentes que nos indicaste.' },
+  { n: '2', text: 'Te llamamos o escribimos para pedirte los documentos que falten.' },
+  { n: '3', text: 'Te decimos qué acciones corresponden y qué puedes recuperar, sin costo.' },
+];
+---
+
+<Layout title="Contacto" description="Cuéntanos tu caso laboral. Un abogado especialista te responde sin costo. Confidencialidad garantizada.">
+  <section class="border-b border-gold/18 bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Contacto</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">CONTACTO</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">Da el primer paso para defender tus derechos.</h1>
+        <p class="text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          No dejes pasar el tiempo legal para demandar — en muchos casos tienes solo <strong class="text-cream-light">60 días hábiles</strong>. Cuéntanos tu caso y te respondemos a la brevedad.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="mx-auto grid max-w-6xl grid-cols-1 gap-13 px-6 py-20 md:grid-cols-[1fr_380px] md:px-8">
+    <!-- FORM -->
+    <div class="rounded-2xl border border-[#e8e2d5] bg-white p-8 shadow-[0_18px_44px_rgba(12,34,49,0.07)] sm:p-10">
+      <div id="contact-form-state">
+        <h2 class="mb-2 font-heading text-2xl font-bold text-navy">Cuéntanos tu caso</h2>
+        <p class="mb-7.5 text-base leading-snug text-[#5a6a70]">Completa el formulario y un abogado se pondrá en contacto contigo. Confidencialidad garantizada.</p>
+
+        <form id="contact-form" class="flex flex-col gap-4.5">
+          <!-- Honeypot: hidden from real visitors, bots that autofill everything trip it. -->
+          <div class="absolute -left-[9999px]" aria-hidden="true">
+            <label for="empresa_web">No completar</label>
+            <input type="text" id="empresa_web" name="empresa_web" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="grid grid-cols-1 gap-4.5 sm:grid-cols-2">
+            <div>
+              <label for="nombre" class="mb-1.5 block text-sm font-semibold text-navy">Nombre completo *</label>
+              <input id="nombre" name="nombre" required placeholder="Ej: María González" class="w-full rounded-[9px] border border-[#d8d0bf] bg-[#fbfaf6] px-4 py-3.5 text-[15px] focus:border-gold focus:outline-none" />
+            </div>
+            <div>
+              <label for="telefono" class="mb-1.5 block text-sm font-semibold text-navy">Teléfono *</label>
+              <input id="telefono" name="telefono" required placeholder="+56 9 ..." class="w-full rounded-[9px] border border-[#d8d0bf] bg-[#fbfaf6] px-4 py-3.5 text-[15px] focus:border-gold focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-semibold text-navy">Correo electrónico *</label>
+            <input id="email" name="email" type="email" required placeholder="tucorreo@ejemplo.cl" class="w-full rounded-[9px] border border-[#d8d0bf] bg-[#fbfaf6] px-4 py-3.5 text-[15px] focus:border-gold focus:outline-none" />
+          </div>
+
+          <div>
+            <label for="tipo" class="mb-1.5 block text-sm font-semibold text-navy">Tipo de caso</label>
+            <select id="tipo" name="tipo" class="w-full rounded-[9px] border border-[#d8d0bf] bg-[#fbfaf6] px-4 py-3.5 text-[15px] text-ink focus:border-gold focus:outline-none">
+              <option value="">Selecciona una opción</option>
+              {services.map((s) => <option value={s.navLabel}>{s.navLabel}</option>)}
+              <option value="Otro / No estoy seguro">Otro / No estoy seguro</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="mensaje" class="mb-1.5 block text-sm font-semibold text-navy">Cuéntanos qué pasó *</label>
+            <textarea id="mensaje" name="mensaje" required rows="5" placeholder="Describe brevemente tu situación (fechas, empresa, motivo del despido, etc.)" class="w-full resize-y rounded-[9px] border border-[#d8d0bf] bg-[#fbfaf6] px-4 py-3.5 text-[15px] leading-snug focus:border-gold focus:outline-none"></textarea>
+          </div>
+
+          <div id="consent-panel" class="rounded-xl border-[1.5px] border-[#e0d8c7] bg-[#fbfaf6] px-6 py-5.5 transition-colors">
+            <label class="flex cursor-pointer items-start gap-4">
+              <input type="checkbox" id="consent" name="consentimiento" class="mt-0.5 h-5.5 w-5.5 flex-shrink-0 accent-green" />
+              <span>
+                <span class="mb-2 block text-base font-bold leading-snug text-navy">Autorizo el uso de mis datos para que me contacten sobre mi caso.</span>
+                <span class="block text-[15px] leading-relaxed text-[#41525a]">
+                  Usaremos tu nombre, teléfono, correo y el relato de tu situación con un solo fin: evaluar tu caso y responderte. No los vendemos, no los compartimos con terceros y no te enviaremos publicidad. Los conservamos hasta 24 meses desde nuestro último contacto y puedes pedirnos que los eliminemos antes. Todo el detalle está en nuestra <a href="/privacidad" class="font-semibold text-gold-dark">política de privacidad</a>.
+                </span>
+              </span>
+            </label>
+            <div id="consent-rule" class="mt-4 flex items-center gap-2.5 border-t border-[#e4ded0] pt-3.5 text-sm font-semibold text-[#3f8a58]">
+              <Icon path={LOCK_ICON} class="h-[17px] w-[17px]" strokeWidth={1.9} />
+              Ley 19.628 sobre protección de la vida privada · Secreto profesional del abogado
+            </div>
+          </div>
+
+          <p id="form-error" class="hidden rounded-[11px] border-l-4 border-[#c0503f] bg-[#fdf1ef] px-4.5 py-4 text-[14.5px] leading-snug text-[#8f3527]"></p>
+
+          <button type="submit" id="submit-btn" class="flex w-full items-center justify-center gap-2.5 rounded-[10px] bg-green px-4 py-4 font-bold text-white shadow-[0_12px_28px_rgba(37,163,90,0.35)] hover:bg-green-dark">
+            <span id="submit-spinner" class="hidden h-[19px] w-[19px] flex-shrink-0 animate-spin-fast rounded-full border-[2.5px] border-white/35 border-t-white"></span>
+            <span id="submit-label">Enviar consulta</span>
+          </button>
+          <p class="text-center text-[13px] text-[#8593a0]">Tus datos son 100% confidenciales y están amparados por el secreto profesional.</p>
+        </form>
+      </div>
+
+      <div id="contact-success-state" class="hidden overflow-hidden rounded-2xl border border-[#cbe0d1] bg-[#eef4ef]">
+        <div class="bg-gradient-to-br from-[#0d2e1e] to-[#124026] px-8.5 py-9 text-center">
+          <div class="mx-auto mb-4.5 flex h-16 w-16 items-center justify-center rounded-full bg-green text-white shadow-[0_10px_26px_rgba(37,163,90,0.4)]">
+            <Icon path={CHECK_ICON} class="h-8 w-8" strokeWidth={2.6} />
+          </div>
+          <h3 class="mb-2.5 font-heading text-2xl font-bold leading-tight text-cream-light">Recibimos tu consulta</h3>
+          <p class="text-[16.5px] leading-snug text-[#c3d1c8]">Un abogado especialista revisará tu caso y te contactará dentro del horario de atención.</p>
+        </div>
+        <div class="px-8.5 pb-8.5 pt-7.5">
+          <div class="mb-6.5 flex flex-col gap-3.5">
+            {successNext.map((n) => (
+              <div class="flex items-start gap-3.5">
+                <span class="flex h-6.5 w-6.5 flex-shrink-0 items-center justify-center rounded-full border border-[#cbe0d1] bg-white text-[13px] font-bold text-[#3f8a58]">{n.n}</span>
+                <span class="text-[15.5px] leading-snug text-[#3d5c48]">{n.text}</span>
+              </div>
+            ))}
+          </div>
+          <div class="mb-6 rounded-[11px] border border-[#d6e3d9] bg-white px-5.5 py-5">
+            <p class="mb-3.5 text-[15.5px] leading-snug text-[#41525a]"><strong class="text-navy">¿Tu caso es urgente?</strong> Si estás a punto de firmar tu finiquito o el plazo de 60 días hábiles está por vencer, escríbenos directamente por WhatsApp.</p>
+            <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 rounded-[10px] bg-green px-6 py-3.5 font-bold text-white hover:bg-green-dark">
+              <Icon path={WA_ICON} fill="currentColor" class="h-[19px] w-[19px]" />
+              Escribir por WhatsApp
+            </a>
+          </div>
+          <button type="button" id="reset-form-btn" class="rounded-[9px] border border-gold px-6 py-3 font-semibold text-gold-dark hover:bg-gold hover:text-white">Enviar otra consulta</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO SIDEBAR -->
+    <aside class="flex flex-col gap-5">
+      <a href={waLink} target="_blank" rel="noopener noreferrer" class="block rounded-2xl bg-gradient-to-br from-[#0d2e1e] to-[#124026] p-7 hover:opacity-95">
+        <div class="mb-3 flex items-center gap-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-full bg-green">
+            <Icon path={WA_ICON} fill="currentColor" class="h-6.5 w-6.5 text-white" />
+          </div>
+          <div class="font-heading text-lg font-bold text-cream-light">WhatsApp directo</div>
+        </div>
+        <div class="font-heading text-[22px] font-bold text-gold-light">{contact.whatsappDisplay}</div>
+        <div class="mt-1.5 text-sm text-[#c3d1c8]">La vía más rápida — respuesta inmediata.</div>
+      </a>
+
+      <div class="rounded-2xl border border-[#e8e2d5] bg-white p-7">
+        {contactInfo.map((c) => (
+          <div class="flex items-start gap-3.5 border-b border-[#efe9dc] py-3.5">
+            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px] bg-[#f2ede1] text-gold-dark">
+              <Icon path={c.icon} class="h-5 w-5" />
+            </div>
+            <div>
+              <div class="mb-0.5 text-[13px] font-semibold tracking-wide text-[#8593a0]">{c.label}</div>
+              <div class="text-base font-semibold leading-snug text-navy">{c.value}</div>
+            </div>
+          </div>
+        ))}
+        <div class="flex items-center gap-2.5 pt-4 text-sm font-semibold text-[#3f8a58]">
+          <Icon path={LOCK_ICON} class="h-[18px] w-[18px]" strokeWidth={1.8} />
+          Confidencialidad absoluta garantizada
+        </div>
+      </div>
+    </aside>
+  </div>
+</Layout>
+
+<script>
+  const formLoadedAt = Date.now();
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const formState = document.getElementById('contact-form-state') as HTMLElement;
+  const successState = document.getElementById('contact-success-state') as HTMLElement;
+  const errorEl = document.getElementById('form-error') as HTMLElement;
+  const consentInput = document.getElementById('consent') as HTMLInputElement;
+  const consentPanel = document.getElementById('consent-panel') as HTMLElement;
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const submitLabel = document.getElementById('submit-label') as HTMLElement;
+  const submitSpinner = document.getElementById('submit-spinner') as HTMLElement;
+  const resetBtn = document.getElementById('reset-form-btn') as HTMLButtonElement;
+
+  consentInput.addEventListener('change', () => {
+    consentPanel.classList.toggle('border-[#a8cdb5]', consentInput.checked);
+    consentPanel.classList.toggle('bg-[#f2f7f3]', consentInput.checked);
+    consentPanel.classList.toggle('border-[#e0d8c7]', !consentInput.checked);
+    consentPanel.classList.toggle('bg-[#fbfaf6]', !consentInput.checked);
+    if (consentInput.checked) errorEl.classList.add('hidden');
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    form.reset();
+    successState.classList.add('hidden');
+    formState.classList.remove('hidden');
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+
+    if (!consentInput.checked) {
+      errorEl.textContent = 'Para poder revisar tu caso y responderte necesitamos que marques la casilla de autorización de uso de datos.';
+      errorEl.classList.remove('hidden');
+      consentPanel.classList.add('border-[#c0503f]');
+      return;
+    }
+
+    const fd = new FormData(form);
+    const payload = {
+      nombre: String(fd.get('nombre') || ''),
+      telefono: String(fd.get('telefono') || ''),
+      email: String(fd.get('email') || ''),
+      tipo: String(fd.get('tipo') || ''),
+      mensaje: String(fd.get('mensaje') || ''),
+      consentimiento: true,
+      empresa_web: String(fd.get('empresa_web') || ''),
+      formLoadedAt,
+    };
+
+    submitBtn.disabled = true;
+    submitLabel.textContent = 'Enviando…';
+    submitSpinner.classList.remove('hidden');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'No pudimos enviar tu consulta.');
+      }
+      formState.classList.add('hidden');
+      successState.classList.remove('hidden');
+    } catch (err) {
+      errorEl.textContent = err instanceof Error ? err.message : 'No pudimos enviar tu consulta. Intenta por WhatsApp.';
+      errorEl.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = 'Enviar consulta';
+      submitSpinner.classList.add('hidden');
+    }
+  });
+</script>

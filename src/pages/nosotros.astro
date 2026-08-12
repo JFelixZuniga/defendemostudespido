@@ -1,0 +1,112 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { waLink } from '../data/services';
+
+const stats = [
+  { num: '+700', label: 'Trabajadores han confiado en nosotros para defender sus derechos laborales' },
+  { num: '+4 años', label: 'De experiencia exclusiva en Derecho Laboral' },
+  { num: '100%', label: 'Representación en todo Chile' },
+];
+
+const values = [
+  { title: 'Cercanía', desc: 'Hablas directo con abogados, en un lenguaje claro y sin tecnicismos innecesarios.', icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+  { title: 'Confidencialidad', desc: 'Tu información está 100% protegida en cada etapa del proceso.', icon: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>' },
+  { title: 'Compromiso', desc: 'Peleamos cada caso como propio, hasta conseguir lo que te corresponde.', icon: '<path d="M12 2 4 5v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5z"/><path d="m9 12 2 2 4-4"/>' },
+  { title: 'Transparencia', desc: 'Sin letra chica: te explicamos con honestidad la viabilidad real de tu caso.', icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>' },
+];
+
+const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
+---
+
+<Layout title="Nosotros" description="Más de cuatro años defendiendo a trabajadores en todo Chile. Conoce nuestro equipo, misión, visión y valores.">
+  <section class="border-b border-gold/18 bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Nosotros</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">QUIÉNES SOMOS</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">Nuestro compromiso es con el trabajador.</h1>
+        <p class="text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          Un equipo de abogados dedicado exclusivamente a proteger a quienes sostienen el país con su trabajo, en cada rincón de Chile.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-4xl px-6 py-20 pb-10 md:px-8">
+    <h2 class="mb-5 font-heading text-3xl font-bold leading-tight text-navy md:text-4xl">Más de cuatro años defendiendo a quienes más lo necesitan.</h2>
+    <div class="flex flex-col gap-4 text-[17px] leading-relaxed text-[#41525a]">
+      <p>Por más de cuatro años, hemos representado a trabajadores en conflictos laborales, con una defensa jurídica seria, estratégica y cercana.</p>
+      <p>Sabemos que las empresas cuentan con asesoría legal para proteger sus intereses. Nuestra labor es resguardar los tuyos.</p>
+      <p>Más de 700 trabajadores han confiado en nosotros para enfrentar despidos injustificados, comparendos ante la Inspección del Trabajo, cobro de prestaciones, tutelas laborales y otros conflictos. Cada caso es atendido directamente por abogados especialistas, mediante una estrategia ajustada a sus antecedentes y objetivos.</p>
+      <p>Si tienes un conflicto laboral, agenda una evaluación de tu caso y descubre qué puedes reclamar.</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pb-5 pt-9 md:px-8">
+    <div class="grid grid-cols-1 rounded-2xl border border-gold/22 bg-navy px-5 py-9 sm:grid-cols-3">
+      {stats.map((s, i) => (
+        <div class:list={["px-6 py-4 text-center", i < stats.length - 1 && "border-b border-white/9 sm:border-b-0 sm:border-r"]}>
+          <div class="mb-2 font-heading text-4xl font-extrabold leading-none text-gold-light">{s.num}</div>
+          <div class="text-sm leading-snug text-[#adbbc0]">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20 pb-10 md:px-8">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="rounded-2xl border border-[#e8e2d5] border-t-4 border-t-[#3f8a58] bg-white p-9">
+        <div class="mb-5.5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#eaf3ec] text-[#3f8a58]">
+          <Icon path='<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/>' class="h-7 w-7" />
+        </div>
+        <h3 class="mb-3.5 font-heading text-2xl font-bold text-navy">Nuestra Misión</h3>
+        <p class="leading-relaxed text-[#41525a]">Defender de forma cercana, honesta y efectiva los derechos de cada trabajador de Chile, asegurando que reciba íntegramente lo que la ley le reconoce. Lo hacemos con asesoría clara, representación de excelencia y sin barreras de entrada, para que ejercer tus derechos nunca dependa de tu bolsillo.</p>
+      </div>
+      <div class="rounded-2xl border border-[#e8e2d5] border-t-4 border-t-gold bg-white p-9">
+        <div class="mb-5.5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#f6efdd] text-gold-dark">
+          <Icon path='<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>' class="h-7 w-7" />
+        </div>
+        <h3 class="mb-3.5 font-heading text-2xl font-bold text-navy">Nuestra Visión</h3>
+        <p class="leading-relaxed text-[#41525a]">Ser el estudio jurídico de referencia para los trabajadores en Chile, reconocido por su especialización, cercanía y compromiso con la defensa de los derechos laborales. Aspiramos a contribuir a un país donde toda persona pueda acceder a una representación jurídica de excelencia y donde el respeto por los derechos de los trabajadores sea la regla y no la excepción.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-12 bg-navy">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:px-8">
+      <div class="mb-13 text-center">
+        <div class="mb-3.5 text-sm font-bold tracking-widest text-gold">LO QUE NOS MUEVE</div>
+        <h2 class="font-heading text-3xl font-bold text-cream-light md:text-4xl">Nuestros valores</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {values.map((v) => (
+          <div class="rounded-2xl border border-gold/20 bg-white/4 p-7">
+            <div class="mb-4.5 flex h-12.5 w-12.5 items-center justify-center rounded-xl bg-gold/14 text-gold-light">
+              <Icon path={v.icon} class="h-6 w-6" />
+            </div>
+            <h3 class="mb-2 font-heading text-lg font-semibold text-cream-light">{v.title}</h3>
+            <p class="text-sm leading-relaxed text-[#adbbc0]">{v.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20 pb-22 md:px-8">
+    <div class="flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d2e1e] via-[#124026] to-navy p-9 md:p-14">
+      <div class="max-w-xl">
+        <h2 class="mb-3 font-heading text-3xl font-bold leading-tight text-cream-light">Conoce si en tu caso <span class="text-gold-light">se puede demandar.</span></h2>
+        <p class="text-[17px] leading-snug text-[#c3d1c8]">Evaluamos tu situación sin costo inicial. Solo cobramos si ganamos.</p>
+      </div>
+      <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 whitespace-nowrap rounded-xl bg-green px-8 py-5 text-lg font-bold text-white shadow-[0_14px_34px_rgba(37,163,90,0.4)] transition-transform hover:-translate-y-0.5 hover:bg-green-dark">
+        <Icon path={WA_ICON} fill="currentColor" class="h-6 w-6" />
+        Consulta gratis
+      </a>
+    </div>
+  </section>
+</Layout>

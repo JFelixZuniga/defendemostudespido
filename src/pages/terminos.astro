@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+
+const responsable = [
+  { k: 'Titular', v: 'John Doe' },
+  { k: 'RUT', v: '12345678-9' },
+  { k: 'Correo de contacto', v: 'defendemostudespido@gmail.com' },
+  { k: 'Vigencia', v: 'Desde agosto de 2026' },
+];
+
+const sections = [
+  { n: '1', id: 'aceptacion', title: 'Aceptación de estas condiciones', body: [
+    'Al navegar por este sitio, usar la calculadora de finiquito o enviarnos una consulta, aceptas las condiciones descritas en este documento. Si no estás de acuerdo con ellas, te pedimos que no utilices el sitio.',
+    'Podemos modificar estas condiciones cuando cambien nuestros servicios o la normativa aplicable. La versión vigente será siempre la publicada en esta página.',
+  ]},
+  { n: '2', id: 'informacion', title: 'La información publicada es orientativa', body: [
+    'Los contenidos de este sitio —las descripciones de servicios, las preguntas frecuentes, la guía sobre el cálculo del finiquito y cualquier otro texto— tienen una finalidad informativa y divulgativa. Buscan ayudarte a entender tus derechos en términos generales.',
+    'No constituyen asesoría legal ni una opinión jurídica sobre tu situación particular. La legislación laboral se interpreta caso a caso, y un mismo hecho puede tener consecuencias distintas según la causal invocada, tu antigüedad, lo que la empresa pueda acreditar y los antecedentes concretos del expediente. Antes de tomar cualquier decisión —firmar un finiquito, renunciar, aceptar un acuerdo o presentar una demanda— consulta con un abogado que conozca tu caso.',
+  ]},
+  { n: '3', id: 'calculadora', title: 'Límites de la calculadora de finiquito', body: [
+    'La calculadora entrega una estimación referencial construida a partir de los cuatro datos que ingresas. No reemplaza el cálculo que debe hacer un abogado sobre tu finiquito real.',
+    'En particular, ten presente que:',
+  ], list: [
+    'Utiliza un valor de la UF fijado manualmente, que puede no coincidir con el vigente al momento de tu despido.',
+    'Aplica los topes legales generales (90 UF de base y 11 años de servicio), pero no considera conceptos como horas extraordinarias, comisiones variables, bonos, semana corrida ni descuentos particulares de tu contrato.',
+    'El recargo por la causal supone que un tribunal declare que el despido fue injustificado, indebido o improcedente. Ese resultado no está garantizado y depende de la prueba que se rinda en juicio.',
+    'El feriado proporcional se calcula sobre el período anual en curso y no incluye vacaciones acumuladas de años anteriores.',
+  ], after: 'El monto que muestra la calculadora no constituye una oferta, una promesa de resultado ni un compromiso de obtener esa suma. Los datos que ingresas se procesan en tu propio navegador y no se envían ni almacenan en ningún servidor.' },
+  { n: '4', id: 'relacion', title: 'Cuándo nace la relación abogado-cliente', body: [
+    'Enviar el formulario de contacto, escribirnos por WhatsApp o recibir una evaluación preliminar no crea por sí solo una relación profesional entre tú y el estudio, ni obliga a ninguna de las partes.',
+    'La relación abogado-cliente nace únicamente cuando ambas partes lo acuerdan de manera expresa y se suscribe el mandato judicial o el contrato de prestación de servicios correspondiente.',
+  ], after: 'Hasta ese momento no asumimos la representación de tu caso ni el control de los plazos legales que puedan estar corriendo. Recuerda que la acción por despido injustificado caduca a los 60 días hábiles, y que ese plazo sigue corriendo mientras evalúas tus alternativas.' },
+  { n: '5', id: 'confidencialidad', title: 'Confidencialidad de tu consulta', body: [
+    'Toda la información que compartas con nosotros está amparada por el secreto profesional del abogado, incluso si finalmente decides no contratar nuestros servicios. El detalle de cómo tratamos tus datos personales, cuánto tiempo los conservamos y cómo puedes pedirnos que los eliminemos está en nuestra política de privacidad.',
+  ]},
+  { n: '6', id: 'disponibilidad', title: 'Disponibilidad y contenidos del sitio', body: [
+    'Procuramos que la información publicada esté actualizada y sea correcta, pero no garantizamos que esté libre de errores ni que refleje en todo momento los últimos cambios legales o jurisprudenciales. Tampoco garantizamos la disponibilidad ininterrumpida del sitio.',
+    'El sitio puede contener enlaces a servicios de terceros, como WhatsApp o Instagram. No respondemos por el contenido ni por las políticas de esos servicios, que se rigen por sus propias condiciones.',
+  ]},
+  { n: '7', id: 'propiedad', title: 'Propiedad intelectual', body: [
+    'Los textos, el logotipo, el diseño y los demás elementos de este sitio son de propiedad del titular indicado más arriba. Puedes leerlos, citarlos indicando la fuente y compartir enlaces libremente, pero no reproducirlos de forma masiva ni utilizarlos con fines comerciales sin autorización previa.',
+  ]},
+  { n: '8', id: 'legislacion', title: 'Legislación aplicable', body: [
+    'Estas condiciones se rigen por la ley chilena. Cualquier controversia relacionada con el uso de este sitio se someterá a los tribunales ordinarios de justicia de la República de Chile.',
+  ]},
+];
+---
+
+<Layout title="Términos de uso" description="Condiciones de uso del sitio: alcance de la información publicada, límites de la calculadora de finiquito y ausencia de relación abogado-cliente.">
+  <section class="bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Términos de uso</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">CONDICIONES DEL SITIO</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">Términos de uso del sitio</h1>
+        <p class="mb-6 text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          Qué alcance tiene la información publicada aquí, para qué sirve la calculadora de finiquito y en qué momento nace realmente una relación profesional entre tú y el estudio.
+        </p>
+        <div class="inline-flex items-center gap-2.5 rounded-full border border-gold/34 bg-gold/13 px-4.5 py-2 text-sm font-semibold text-gold-light">
+          <Icon path='<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>' class="h-[17px] w-[17px]" />
+          Última actualización: agosto de 2026
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16 md:px-8">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-[1fr_280px] md:gap-14">
+      <div>
+        <div class="mb-8.5 rounded-2xl border border-[#e8e2d5] bg-white px-8 py-7.5">
+          <div class="mb-4 text-xs font-bold tracking-widest text-gold-dark">TITULAR DEL SITIO</div>
+          <div class="flex flex-col gap-2.5">
+            {responsable.map((r) => (
+              <div class="flex flex-wrap items-baseline gap-4">
+                <span class="min-w-[150px] text-[14.5px] text-[#8b9599]">{r.k}</span>
+                <span class="text-base font-semibold text-[#17272f]">{r.v}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {sections.map((s) => (
+          <div id={s.id} class="mb-10 scroll-mt-24">
+            <h2 class="mb-3.5 font-heading text-2xl font-bold leading-snug text-navy">{s.n}. {s.title}</h2>
+            <div class="flex flex-col gap-3 text-[16.5px] leading-relaxed text-[#41525a]">
+              {s.body.map((p) => <p>{p}</p>)}
+              {s.list && (
+                <ul class="flex flex-col gap-2 pl-5">
+                  {s.list.map((li) => <li class="list-disc">{li}</li>)}
+                </ul>
+              )}
+              {s.after && <p>{s.after}</p>}
+            </div>
+          </div>
+        ))}
+
+        <div class="rounded-2xl border border-[#e5c988] border-l-[5px] border-l-gold bg-[#fff6e2] px-7.5 py-7">
+          <h2 class="mb-3 font-heading text-xl font-bold text-navy">¿Dudas sobre estas condiciones?</h2>
+          <p class="mb-4.5 leading-relaxed text-[#5c5340]">
+            Si algo de este documento no te queda claro, o quieres saber cómo tratamos tus datos personales, escríbenos a <a href="mailto:contacto@abogadoslaborales.cl" class="font-semibold text-gold-dark">contacto@abogadoslaborales.cl</a> o revisa nuestra <a href="/privacidad" class="font-semibold text-gold-dark">política de privacidad</a>.
+          </p>
+          <a href="mailto:contacto@abogadoslaborales.cl" class="inline-flex items-center gap-2.5 rounded-lg bg-navy px-6 py-3.5 font-bold text-cream-light">
+            <Icon path='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' class="h-[19px] w-[19px]" />
+            Escribir a contacto@abogadoslaborales.cl
+          </a>
+        </div>
+      </div>
+
+      <aside class="h-fit rounded-2xl border border-[#e8e2d5] bg-cream-light px-6 py-6.5 md:sticky md:top-24">
+        <div class="mb-4 text-xs font-bold tracking-widest text-gold-dark">CONTENIDO</div>
+        <div class="flex flex-col gap-0.5">
+          {sections.map((s) => (
+            <a href={`#${s.id}`} class="flex items-baseline gap-2.5 border-b border-[#f0ebe0] py-2 text-sm leading-snug text-[#41525a] hover:text-gold-dark">
+              <span class="font-bold text-gold">{s.n}</span>
+              <span>{s.title}</span>
+            </a>
+          ))}
+        </div>
+        <a href="/privacidad" class="mt-5 flex items-center gap-2 text-sm font-bold text-gold-dark">
+          Política de privacidad
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      </aside>
+    </div>
+  </section>
+</Layout>

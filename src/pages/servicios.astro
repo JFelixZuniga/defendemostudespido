@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { services, waLink } from '../data/services';
+
+const steps = [
+  { n: '01', title: 'Nos envías tus antecedentes', desc: 'Carta de despido, finiquito y liquidaciones. Si te falta algún documento, igualmente evaluamos tu caso.' },
+  { n: '02', title: 'Definimos la acción correcta', desc: 'Un mismo despido puede dar lugar a varias acciones acumulables. Determinamos cuál conviene y cuáles se suman.' },
+  { n: '03', title: 'Te representamos hasta el final', desc: 'Comparendo, demanda y audiencias, con comunicación permanente sobre el avance de tu caso.' },
+];
+
+const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
+---
+
+<Layout title="Servicios" description="Servicios de abogados laborales en Chile: despido injustificado, tutela laboral, autodespido, nulidad del despido, accidentes del trabajo, finiquito y comparendos. Evaluación gratuita en todo Chile.">
+  <section class="bg-gradient-to-br from-navy-dark via-[#0a1c2a] to-navy-dark">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Servicios</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">SERVICIOS</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">Defensa laboral para cada situación.</h1>
+        <p class="text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          Nos dedicamos exclusivamente al Derecho Laboral. Revisa el resumen de cada servicio y entra al que se parece a tu caso: encontrarás la ley aplicable, qué puedes recuperar y los plazos que corren en tu contra.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pt-16 md:px-8">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {services.map((s) => (
+        <a href={`/servicio/${s.slug}`} class="group flex flex-col rounded-2xl border border-[#e8e2d5] bg-white p-7 shadow-[0_4px_14px_rgba(12,34,49,0.04)] transition-all hover:-translate-y-1 hover:border-gold hover:shadow-[0_18px_40px_rgba(12,34,49,0.11)]">
+          <div class="mb-4.5 flex h-13 w-13 items-center justify-center rounded-xl border border-[#e3dac6] bg-[#f4efe3] text-gold-dark">
+            <Icon path={s.iconSvg} class="h-6 w-6" />
+          </div>
+          <h2 class="mb-2.5 font-heading text-xl font-bold leading-snug text-navy">{s.title}</h2>
+          <p class="mb-4.5 text-[15px] leading-relaxed text-[#5a6a70]">{s.desc}</p>
+          <div class="mb-5 flex flex-col gap-2">
+            {s.points.map((p) => (
+              <div class="flex items-start gap-2.5">
+                <span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold"></span>
+                <span class="text-sm leading-snug text-[#41525a]">{p}</span>
+              </div>
+            ))}
+          </div>
+          <div class="mt-auto flex items-center justify-between gap-3.5 border-t border-[#f0ebe0] pt-4.5">
+            <span class="rounded-md bg-gold/14 px-2.5 py-1 text-xs font-bold tracking-wide text-[#8f6a22]">{s.tag}</span>
+            <span class="inline-flex items-center gap-2 text-sm font-bold text-gold-dark">
+              Ver detalle
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1.5"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 pt-20 md:px-8">
+    <div class="rounded-3xl bg-navy p-9 md:p-11">
+      <div class="mb-8 max-w-2xl">
+        <div class="mb-3 text-sm font-bold tracking-widest text-gold-light">CÓMO TRABAJAMOS</div>
+        <h2 class="font-heading text-3xl font-bold leading-tight text-cream-light md:text-4xl">¿No sabes cuál es tu caso? Nosotros lo determinamos.</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        {steps.map((st) => (
+          <div class="rounded-2xl border border-gold/24 bg-white/5 p-6.5">
+            <div class="mb-3 font-heading text-[26px] font-bold leading-none text-gold-light">{st.n}</div>
+            <h3 class="mb-2 font-heading text-lg font-bold leading-snug text-cream-light">{st.title}</h3>
+            <p class="text-sm leading-relaxed text-[#adbbc0]">{st.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-20 pb-22 md:px-8">
+    <div class="flex flex-wrap items-center justify-between gap-10 rounded-3xl bg-gradient-to-br from-[#0d2e1e] via-[#124026] to-navy p-9 md:p-14">
+      <div class="max-w-xl">
+        <h2 class="mb-3 font-heading text-3xl font-bold leading-tight text-cream-light">Envíanos tu carta de despido. <span class="text-gold-light">La revisamos sin costo.</span></h2>
+        <p class="text-[17px] leading-relaxed text-[#c3d1c8]">En muchos casos tienes solo 60 días hábiles para demandar. Te decimos qué acción corresponde y qué puedes recuperar.</p>
+      </div>
+      <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 whitespace-nowrap rounded-xl bg-green px-8 py-5 text-lg font-bold text-white shadow-[0_14px_34px_rgba(37,163,90,0.4)] hover:bg-green-dark">
+        <Icon path={WA_ICON} fill="currentColor" class="h-6 w-6" />
+        Consulta gratis
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,280 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { services, waLink } from '../data/services';
+
+const trust = [
+  { stat: '+700', label: 'Trabajadores han confiado en nosotros', icon: '<path d="M6 9a6 6 0 0 0 12 0"/><path d="M8 21h8"/><path d="M12 15v6"/><path d="M6 3h12v3a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3z"/>' },
+  { stat: '+4 años', label: 'Estudio Jurídico Online: atención directa por especialistas en Derecho Laboral, sin traslados innecesarios.', icon: '<path d="M12 2 3 6v6c0 5 3.8 8.5 9 10 4.5-1.5 9-5 9-10V6z"/>' },
+  { stat: '100%', label: 'Representación en todo Chile', icon: '<circle cx="12" cy="10" r="3"/><path d="M12 21s7-5.5 7-11a7 7 0 0 0-14 0c0 5.5 7 11 7 11z"/>' },
+  { stat: '$0', label: 'Costo por evaluar tu caso', icon: '<circle cx="12" cy="12" r="9"/><path d="M15 9.5a2.5 2.5 0 0 0-2.5-1.5h-1a2 2 0 0 0 0 4h1a2 2 0 0 1 0 4h-1A2.5 2.5 0 0 1 9 14.5"/><path d="M12 6v2"/><path d="M12 16v2"/>' },
+];
+
+const reasons = [
+  {
+    title: 'Especialistas exclusivamente en Derecho Laboral',
+    icon: '<path d="M12 3 3 7l9 4 9-4z"/><path d="M7 9.5V15c0 1.7 2.2 3 5 3s5-1.3 5-3V9.5"/><path d="M21 7v6"/>',
+    body: [
+      'No somos un estudio jurídico generalista.',
+      'Nuestro equipo está integrado únicamente por abogados especializados en Derecho Laboral, todos con estudios de postgrado. Esto nos permite ofrecer una defensa basada en un conocimiento profundo de la legislación laboral chilena, la jurisprudencia más reciente y los criterios aplicados por los Tribunales del Trabajo.',
+    ],
+  },
+  {
+    title: 'Atención directa con abogados, no con un call center',
+    icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    body: [
+      'Cuando nos contactas, hablas directamente con un abogado especialista. No utilizamos ejecutivos de ventas, call centers ni intermediarios.',
+      'Desde el primer contacto recibirás una evaluación jurídica realizada por un profesional que analizará tu caso, responderá tus dudas y te orientará sobre la mejor estrategia para defender tus derechos.',
+      'Creemos que detrás de cada despido hay una persona que necesita ser escuchada. Por eso ofrecemos una atención cercana, humana y personalizada durante todo el proceso.',
+    ],
+  },
+  {
+    title: 'Diseñamos una estrategia específica para tu caso',
+    icon: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',
+    body: [
+      'Cada despido es diferente.',
+      'Por ello, analizamos en detalle tus antecedentes antes de recomendar una acción. No utilizamos soluciones estándar ni generamos falsas expectativas.',
+    ],
+  },
+  {
+    title: 'Acompañamiento durante todo el proceso',
+    icon: '<path d="M12 20s-7-4.3-7-9.3A4.7 4.7 0 0 1 12 7a4.7 4.7 0 0 1 7 3.7c0 5-7 9.3-7 9.3z"/>',
+    body: [
+      'Sabemos que un juicio laboral puede generar muchas dudas. Por eso, mantenemos una comunicación permanente contigo, explicándote cada etapa del procedimiento, resolviendo tus consultas y manteniéndote informado sobre el avance de tu caso.',
+    ],
+    highlight: 'Nunca enfrentarás el proceso solo.',
+  },
+];
+
+const steps = [
+  { num: '01', title: 'Escríbenos por WhatsApp', desc: 'Cuéntanos sobre tu despido. Te orientamos de manera directa, gratuita y confidencial.' },
+  { num: '02', title: 'Evaluamos tu caso', desc: 'Revisamos tus antecedentes y te explicamos de forma clara si tienes derecho a reclamar una indemnización adicional a tu finiquito y cuánto podrías obtener.' },
+  { num: '03', title: 'Te representamos', desc: 'Si tu caso es viable, nuestros abogados se encargan del proceso para exigir la indemnización que legalmente te corresponde.' },
+];
+
+const faqs = [
+  { q: 'Me despidieron, ¿qué debo hacer primero?', a: 'Lo primero es guardar tu carta de despido y no firmar tu finiquito sin antes revisarlo con un abogado especialista en Derecho Laboral. Asegúrate de conservar todos los antecedentes relacionados con tu relación laboral.\n\nReúne y guarda: carta de despido, liquidaciones de sueldo, finiquito (si ya te lo entregaron), correos electrónicos, WhatsApp, licencias médicas u otros medios que puedan servir como prueba.\n\nSi te falta algún documento, igualmente puedes recibir asesoría.\n\n¿Acabas de ser despedido? Envíanos por WhatsApp una foto de tu carta de despido y la revisaremos para indicarte los pasos a seguir.' },
+  { q: '¿Me pueden despedir sin motivo en Chile?', a: 'No.\n\nEl empleador solo puede poner término al contrato invocando una de las causales establecidas en el Código del Trabajo y debe acreditar los hechos que la justifican.\n\nSi la causal no tiene fundamento o no puede probarse, el despido puede ser declarado injustificado, dando derecho al pago de indemnizaciones con recargos legales.\n\n¿Tienes dudas sobre la causal de tu despido? Envíanos tu carta y te diremos si es posible demandar por despido injustificado.' },
+  { q: '¿Cuánto dinero me corresponde por el despido?', a: 'Depende de diversos factores como:\n\n· Monto de tu remuneración.\n· Antigüedad laboral.\n· Causal de despido.\n· Si hubo aviso previo.\n· Si corresponde indemnización por años de servicio.\n· Si el despido puede declararse injustificado.\n· Si existen otras prestaciones pendientes.\n\nEn muchos casos los trabajadores terminan obteniendo una indemnización superior a la ofrecida inicialmente por la empresa.' },
+  { q: '¿Tengo derecho a indemnización si me despiden por "necesidades de la empresa"?', a: 'Sí, siempre que tengas al menos un año de antigüedad. Generalmente te corresponde:\n\n· Indemnización por años de servicio.\n· Indemnización sustitutiva del aviso previo.\n· Vacaciones pendientes.\n· Otras prestaciones adeudadas.\n\nSi además la empresa no logra acreditar las supuestas "necesidades de la empresa", puedes obtener un incremento del 30% aplicado sobre la indemnización por años de servicio.' },
+  { q: '¿Tengo que firmar el finiquito si no estoy de acuerdo?', a: 'No.\n\nSi no estás conforme con el monto o consideras que existen pagos pendientes, no firmes sin antes recibir asesoría.\n\nSi necesitas recibir el dinero inmediatamente, puedes firmar incorporando una reserva de derechos, dejando expresamente indicado qué materias reclamarás posteriormente. Una reserva mal redactada puede impedir futuras acciones judiciales.\n\nAntes de firmar: revisa tus cotizaciones previsionales, consulta con un abogado laboral, y escribe la reserva en todas las copias del finiquito.\n\nAntes de firmar el finiquito, contáctanos y envíanos una fotografía de tu carta de despido: la revisaremos gratuitamente y te daremos una reserva de derechos adecuada para tu caso.' },
+  { q: 'Si firmo con reserva de derechos, ¿igual me pagan?', a: 'Sí. La empresa debe pagar igualmente las sumas ofrecidas en el finiquito.\n\nLa reserva únicamente permite reclamar posteriormente aquellos montos o derechos que consideres pendientes.\n\nEl empleador no puede negarse a pagar porque hayas efectuado una reserva en el finiquito.' },
+  { q: '¿Cuánto tiempo tiene la empresa para pagar el finiquito?', a: 'El empleador dispone de un plazo máximo de 10 días hábiles desde el término de la relación laboral para poner el finiquito a disposición del trabajador y efectuar el pago.\n\nComo regla general, el pago debe realizarse íntegramente en un solo acto, salvo que exista un acuerdo de pago en cuotas debidamente ratificado ante ministro de fe.' },
+  { q: '¿Cuánto tiempo tengo para demandar por despido injustificado?', a: 'Dispones de 60 días hábiles contados desde el despido.\n\nSi presentaste un reclamo ante la Inspección del Trabajo, el plazo puede extenderse hasta un máximo de 90 días hábiles.\n\nEstos plazos son de caducidad, por lo que una vez vencidos ya no será posible demandar.' },
+  { q: '¿Puedo demandar si ya firmé el finiquito?', a: 'Sí. Si firmaste con una reserva de derechos, puedes demandar por las materias reservadas.\n\nIncluso si firmaste sin reserva, existen situaciones excepcionales en que es posible impugnar el finiquito. Cada caso debe analizarse individualmente.' },
+  { q: '¿Qué pasa si me despidieron estando con licencia médica?', a: 'La licencia médica no impide automáticamente el despido.\n\nSin embargo, dependiendo de la causal invocada y de las circunstancias del caso, el despido puede ser ilegal, injustificado o constituir una vulneración de derechos fundamentales.\n\nEs indispensable revisar la carta de despido y los antecedentes médicos.' },
+  { q: '¿Qué ocurre si mi empleador no pagó mis cotizaciones previsionales?', a: 'Si al momento del despido existen cotizaciones previsionales impagas, podría configurarse la denominada nulidad del despido (Ley Bustos).\n\nEn ese caso, el empleador puede quedar obligado a continuar pagando remuneraciones y demás prestaciones hasta regularizar íntegramente las cotizaciones adeudadas.' },
+  { q: 'Me despidieron por WhatsApp o verbalmente. ¿Es legal?', a: 'No es legal. El despido debe comunicarse por escrito, indicando claramente la causal invocada y los hechos que la fundamentan.\n\nSi solo te informaron verbalmente o mediante WhatsApp, es recomendable dejar constancia en la Inspección del Trabajo y buscar asesoría de inmediato para proteger tus derechos.' },
+  { q: 'Me están obligando a renunciar o quieren que firme un mutuo acuerdo. ¿Qué hago?', a: 'No firmes bajo presión. Renunciar por la página web de la Dirección del Trabajo o aceptar un término por mutuo acuerdo, sin comprender sus consecuencias, puede significar perder el derecho a importantes indemnizaciones.\n\nAntes de firmar cualquier documento, asesórate con un abogado especialista.\n\n📩 Envíanos el documento que quieren hacerte firmar y te asesoramos para proteger tus derechos.' },
+];
+
+const destinos = [
+  { href: '/calculadora', title: 'Calcular mi finiquito', desc: 'Estima en 30 segundos cuánto podría corresponderte por años de servicio, aviso previo y vacaciones.', cta: 'Ir a la calculadora', icon: '<circle cx="12" cy="12" r="9"/><path d="M15 9.5a2.5 2.5 0 0 0-2.5-1.5h-1a2 2 0 0 0 0 4h1a2 2 0 0 1 0 4h-1A2.5 2.5 0 0 1 9 14.5"/><path d="M12 6v2"/><path d="M12 16v2"/>' },
+  { href: '/servicios', title: 'Ver todos los servicios', desc: 'Despido injustificado, tutela laboral, autodespido, nulidad, accidentes, finiquito y comparendos.', cta: 'Ver servicios', icon: '<path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/>' },
+  { href: '/contacto', title: 'Contactar al estudio', desc: 'Cuéntanos tu caso por el formulario y un abogado especialista te responde sin costo.', cta: 'Escribir al estudio', icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
+];
+
+const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
+---
+
+<Layout title="Defendemos Tu Despido" description="Estudio jurídico especializado en Derecho Laboral en todo Chile. Evaluación gratuita de despidos injustificados, tutela laboral, finiquitos y más.">
+  <!-- HERO -->
+  <section id="inicio" class="relative overflow-hidden bg-[#0a1a26]">
+    <div class="absolute inset-0 bg-cover bg-[position:center_right]" style="background-image:url('/uploads/hero_imagen.webp')"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-navy-dark via-navy-dark/85 to-navy-dark/10"></div>
+    <div class="relative mx-auto max-w-6xl px-6 py-24 pb-28 md:px-8 md:pb-32">
+      <div class="max-w-xl">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/15 px-4 py-1.5 text-[13px] font-semibold tracking-wide text-gold-light">
+          DERECHO LABORAL · TODO CHILE
+        </div>
+        <h1 class="font-heading text-4xl font-bold leading-[1.05] text-[#f6f2e8] md:text-6xl">¿Te despidieron<br />injustamente?</h1>
+        <h1 class="mb-6 font-heading text-4xl font-bold italic leading-[1.05] text-[#6bbd87] md:text-6xl">Háblanos.</h1>
+        <p class="mb-3 max-w-lg text-lg leading-snug text-[#d7ddda] md:text-xl">
+          No enfrentes a tu empleador sin asesoría. Revisa tu caso con abogados laborales y conoce las indemnizaciones que puedes conseguir.
+        </p>
+        <p class="mb-9 max-w-md text-base leading-snug text-[#a9b6b8]">
+          Defendemos tus derechos laborales desde el primer día. Te asesoramos y representamos en todo tipo de conflictos laborales. Especialistas laborales a tu lado.
+        </p>
+        <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 rounded-xl bg-green px-8 py-5 text-lg font-bold text-white shadow-[0_14px_34px_rgba(37,163,90,0.42)] transition-transform hover:-translate-y-0.5 hover:bg-green-dark">
+          <Icon path={WA_ICON} fill="currentColor" class="h-6 w-6" />
+          Consulta gratis por WhatsApp
+        </a>
+        <div class="mt-5 flex flex-wrap items-center gap-2.5">
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm font-semibold text-[#c6d0cf]">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="#dcbd7f"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+            Atención rápida y directa
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm font-semibold text-[#c6d0cf]">
+            <Icon path='<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1 2.5 2.2c0 2.8-5 1.8-5 4.6 0 1.2 1.1 2.2 2.5 2.2s2.5-1.1 2.5-2.5" stroke-linecap="round"/>' class="h-4 w-4 text-[#6bbd87]" />
+            Sin costo inicial
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="relative z-10 mx-auto -mt-14 max-w-6xl px-6 md:px-8">
+    <div class="grid grid-cols-2 gap-y-7 rounded-2xl border border-gold/22 bg-navy px-5 py-8 shadow-[0_24px_60px_rgba(8,23,34,0.4)] md:grid-cols-4">
+      {trust.map((t, i) => (
+        <div class:list={["px-4 text-center md:px-6", i % 2 === 0 && "border-r border-white/9 md:border-r", i === trust.length - 1 && "md:border-r-0"]}>
+          <div class="mb-3 flex justify-center text-gold">
+            <Icon path={t.icon} class="h-8 w-8" strokeWidth={1.7} />
+          </div>
+          <div class="mb-1.5 font-heading text-2xl font-bold text-cream-light">{t.stat}</div>
+          <div class="text-sm leading-snug text-[#adbbc0]">{t.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ALERTA FINIQUITO -->
+  <section class="mx-auto mt-16 max-w-5xl px-6 md:px-8">
+    <div class="flex flex-col gap-5 rounded-2xl border border-[#e5c988] border-l-[6px] border-l-gold bg-[#fff6e2] p-8 shadow-[0_12px_30px_rgba(12,34,49,0.07)] sm:flex-row sm:items-start">
+      <div class="flex-shrink-0 text-3xl leading-none">⚠️</div>
+      <div>
+        <h2 class="mb-3 font-heading text-2xl font-bold leading-tight text-navy sm:text-[28px]">¿Vas a firmar tu finiquito?</h2>
+        <p class="mb-5 max-w-3xl text-base leading-relaxed text-[#4b5a60] sm:text-lg">
+          <strong class="text-gold-dark">¡No firmes sin hacer Reserva de Derechos!</strong> Escríbenos por WhatsApp antes de ir a la notaría, mándanos una foto de tu carta de despido y te indicamos exactamente lo que debes escribir para no perder el derecho a reclamar tus indemnizaciones.
+        </p>
+        <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 rounded-lg bg-green px-6 py-3.5 font-bold text-white shadow-[0_10px_24px_rgba(37,163,90,0.3)] hover:bg-green-dark">
+          <Icon path={WA_ICON} fill="currentColor" class="h-5 w-5" />
+          Enviar mi carta de despido
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SITUACIONES / SERVICIOS -->
+  <section id="servicios" class="mx-auto max-w-6xl px-6 py-20 md:px-8">
+    <div class="mb-13 text-center">
+      <div class="mb-3.5 text-sm font-bold tracking-widest text-gold-dark">NUESTROS SERVICIOS</div>
+      <h2 class="mb-4 font-heading text-3xl font-bold text-navy md:text-4xl">¿En qué situaciones te podemos ayudar?</h2>
+      <div class="mx-auto mb-4 h-[3px] w-[70px] rounded-full bg-gold"></div>
+      <p class="mx-auto max-w-2xl text-lg text-[#5a6a70]">
+        Identifica tu problema. Cada caso es diferente y requiere una estrategia adecuada. Analizamos tu situación y diseñamos la mejor forma de defender tus derechos.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      {services.map((s) => (
+        <a href={`/servicio/${s.slug}`} class="group flex items-start gap-5 rounded-2xl border border-[#e8e2d5] bg-white p-6 transition-all hover:-translate-y-1 hover:border-gold hover:shadow-[0_16px_34px_rgba(12,34,49,0.1)]">
+          <div class="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[#eaf3ec] text-[#3f8a58]">
+            <Icon path={s.iconSvg} class="h-6 w-6" />
+          </div>
+          <div>
+            <h3 class="mb-2 font-heading text-xl font-bold text-navy">{s.title}</h3>
+            <p class="text-sm leading-snug text-[#5a6a70]">{s.desc}</p>
+          </div>
+          <div class="ml-auto self-center text-2xl text-gold transition-transform group-hover:translate-x-1.5">›</div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- POR QUÉ ELEGIRNOS -->
+  <section id="nosotros" class="mt-4 bg-navy">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:px-8">
+      <div class="mb-14 text-center">
+        <div class="mb-3.5 text-sm font-bold tracking-widest text-gold">POR QUÉ ELEGIRNOS</div>
+        <h2 class="mb-4 font-heading text-3xl font-bold text-cream-light md:text-4xl">¿Por qué elegirnos?</h2>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-[#adbbc0]">
+          Sabemos que un despido genera incertidumbre. Por eso, nuestro compromiso es brindarte una defensa jurídica sólida, cercana y enfocada en obtener el mejor resultado posible para tu caso.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {reasons.map((r) => (
+          <div class="rounded-2xl border border-gold/20 bg-white/4 p-8">
+            <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-gold/14 text-gold-light">
+              <Icon path={r.icon} class="h-6 w-6" />
+            </div>
+            <h3 class="mb-2.5 font-heading text-xl font-semibold text-cream-light">{r.title}</h3>
+            <div class="flex flex-col gap-2.5 text-sm leading-relaxed text-[#adbbc0]">
+              {r.body.map((p) => <p>{p}</p>)}
+              {r.highlight && <p class="font-semibold text-gold-light">{r.highlight}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESO -->
+  <section class="mx-auto max-w-6xl px-6 py-20 pb-10 md:px-8">
+    <div class="mb-14 text-center">
+      <div class="mb-3.5 text-sm font-bold tracking-widest text-gold-dark">CÓMO TRABAJAMOS</div>
+      <h2 class="font-heading text-3xl font-bold text-navy md:text-4xl">Tu caso, en 3 simples pasos.</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-7 md:grid-cols-3">
+      {steps.map((s) => (
+        <div class="px-1.5 py-2">
+          <div class="mb-4.5 flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#e4d7bb] bg-[#fbf8f0] font-heading text-[28px] font-extrabold leading-none text-gold-dark">{s.num}</div>
+          <h3 class="mb-2.5 font-heading text-xl font-bold text-navy">{s.title}</h3>
+          <p class="text-base leading-relaxed text-[#5a6a70]">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="mx-auto max-w-3xl px-6 py-20 pb-12 md:px-8">
+    <div class="mb-11 text-center">
+      <h2 class="mb-3.5 font-heading text-3xl font-bold text-navy md:text-4xl">Preguntas frecuentes sobre despidos en Chile</h2>
+      <div class="mx-auto h-[3px] w-[70px] rounded-full bg-gold"></div>
+    </div>
+    <div class="flex flex-col gap-3.5">
+      {faqs.map((f) => (
+        <div data-faq-item data-open="false" class="overflow-hidden rounded-xl border border-[#e8e2d5] bg-white">
+          <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-heading text-lg font-semibold text-navy">
+            <span>{f.q}</span>
+            <span class="faq-chevron flex-shrink-0 text-2xl text-gold transition-transform">+</span>
+          </button>
+          <div class="faq-row">
+            <div>
+              <p class="whitespace-pre-line px-6 pb-6 text-base leading-relaxed text-[#5a6a70]">{f.a}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- DESTINOS -->
+  <section class="mx-auto max-w-6xl px-6 pb-10 md:px-8">
+    <div class="grid grid-cols-1 gap-4.5 sm:grid-cols-3">
+      {destinos.map((d) => (
+        <a href={d.href} class="group flex flex-col rounded-2xl border border-[#e8e2d5] bg-white p-6 shadow-[0_4px_14px_rgba(12,34,49,0.04)] transition-all hover:-translate-y-1 hover:border-gold hover:shadow-[0_18px_40px_rgba(12,34,49,0.11)]">
+          <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#e3dac6] bg-[#f4efe3] text-gold-dark">
+            <Icon path={d.icon} class="h-5 w-5" />
+          </div>
+          <h3 class="mb-2 font-heading text-xl font-bold text-navy">{d.title}</h3>
+          <p class="mb-4.5 text-sm leading-relaxed text-[#5a6a70]">{d.desc}</p>
+          <span class="mt-auto inline-flex items-center gap-2 text-sm font-bold text-gold-dark">
+            {d.cta}
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-1"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="contacto" class="mx-auto max-w-6xl px-6 py-10 pb-22 md:px-8">
+    <div class="relative flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d2e1e] via-[#124026] to-navy p-9 md:p-14">
+      <div class="relative max-w-xl">
+        <h2 class="mb-3.5 font-heading text-3xl font-bold leading-tight text-cream-light">¿Tienes dudas sobre <span class="text-gold-light">tu despido?</span></h2>
+        <p class="mb-3 text-base leading-relaxed text-[#c3d1c8] md:text-[17px]">
+          Cada despido es distinto y una diferencia en la causal, la antigüedad o el contenido del finiquito puede significar millones de pesos en indemnizaciones. En nuestro estudio jurídico revisamos gratuitamente tu carta de despido y te indicamos si existen acciones legales para reclamar.
+        </p>
+        <div class="flex flex-col gap-1.5 text-base text-[#c3d1c8]">
+          <div>✅ Evaluamos tu caso sin costo.</div>
+          <div>✅ Atención online en todo Chile.</div>
+          <div>✅ Abogados especialistas en Derecho Laboral.</div>
+        </div>
+      </div>
+      <a href={waLink} target="_blank" rel="noopener noreferrer" class="relative inline-flex items-center gap-3 whitespace-nowrap rounded-xl bg-green px-8 py-5 text-lg font-bold text-white shadow-[0_14px_34px_rgba(37,163,90,0.4)] transition-transform hover:-translate-y-0.5 hover:bg-green-dark">
+        <Icon path={WA_ICON} fill="currentColor" class="h-6 w-6" />
+        Consultar ahora
+      </a>
+    </div>
+  </section>
+</Layout>

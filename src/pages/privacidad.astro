@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+
+const responsable = [
+  { k: 'Razón social', v: 'John Doe' },
+  { k: 'RUT', v: '12345678-9' },
+  { k: 'Correo de contacto', v: 'defendemostudespido@gmail.com' },
+  { k: 'Ámbito', v: 'Atención a trabajadores en todo Chile' },
+];
+
+const sections = [
+  { n: '1', id: 'que-datos', title: 'Qué datos recogemos y por qué canal', body: [
+    'Solo tratamos los datos que tú nos entregas voluntariamente. No compramos bases de datos, no hacemos perfilamiento y no rastreamos tu navegación con fines publicitarios.',
+  ], cards: [
+    ['Formulario de contacto', 'Nombre, teléfono, correo electrónico, tipo de caso y el relato que escribas en el campo de mensaje.'],
+    ['WhatsApp', 'Tu número de teléfono, los mensajes que nos envíes y los documentos que compartas, como la carta de despido, el finiquito o tus liquidaciones de sueldo.'],
+    ['Calculadora de finiquito', 'Ninguno. El cálculo se ejecuta completamente en tu navegador: el sueldo, las fechas y la causal que ingresas no se envían a ningún servidor ni quedan registrados en parte alguna. Solo conocemos esos datos si tú decides enviarnos el resultado por WhatsApp.'],
+  ], after: 'Algunos de estos antecedentes pueden constituir datos sensibles, por ejemplo cuando tu caso involucra licencias médicas, un accidente laboral, una enfermedad profesional o una situación de acoso. Los tratamos con el mismo cuidado y bajo el mismo secreto profesional que aplicamos a cualquier expediente judicial.' },
+  { n: '2', id: 'finalidad', title: 'Para qué usamos tus datos', body: [
+    'Tenemos una sola finalidad: evaluar tu caso y responderte. En concreto, usamos tus datos para:',
+  ], list: [
+    'Revisar los antecedentes que nos entregas y determinar si existen acciones legales disponibles.',
+    'Contactarte por el medio que nos indicaste para pedirte documentos faltantes o explicarte el resultado de la evaluación.',
+    'Elaborar la propuesta de representación, si decides seguir adelante.',
+  ], after: 'No usamos tus datos para enviarte publicidad, boletines ni comunicaciones comerciales, y no los sometemos a decisiones automatizadas.' },
+  { n: '3', id: 'base-licitud', title: 'Base que nos habilita a tratarlos', body: [
+    'El tratamiento se funda en tu consentimiento libre, informado y específico, que otorgas al marcar la casilla del formulario o al escribirnos voluntariamente por WhatsApp. Ese consentimiento se refiere únicamente a las finalidades descritas en el punto anterior.',
+    'Puedes revocarlo en cualquier momento escribiéndonos a contacto@abogadoslaborales.cl. La revocación no afecta la licitud del tratamiento realizado antes de que la solicites. Si ya existe un mandato judicial vigente, la conservación de los antecedentes del caso se rige además por nuestras obligaciones profesionales.',
+  ]},
+  { n: '4', id: 'conservacion', title: 'Cuánto tiempo los conservamos', body: [
+    'Conservamos tus datos por un plazo máximo de 24 meses contados desde nuestro último contacto contigo. Cumplido ese plazo, los eliminamos de nuestros correos y registros.',
+    'La excepción es que tu consulta derive en un mandato judicial: en ese caso, los antecedentes del expediente se conservan por el tiempo que exijan la tramitación de la causa y las normas profesionales aplicables al ejercicio de la abogacía.',
+  ]},
+  { n: '5', id: 'terceros', title: 'Con quién los compartimos', body: [
+    'No vendemos, arrendamos ni cedemos tus datos a terceros con fines comerciales. Intervienen dos grupos de proveedores, con roles muy distintos.',
+    'Para atender tu consulta (siempre activos, porque sin ellos no podríamos responderte):',
+  ], list: [
+    'Resend, servicio de envío de correo electrónico, que transmite a nuestra casilla el mensaje que envías por el formulario.',
+    'WhatsApp (Meta), cuando eliges ese canal para escribirnos.',
+  ], mid: 'Para medir el sitio (solo si autorizas las cookies opcionales; si las rechazas, nunca reciben datos tuyos):', list2: [
+    'Google Ireland Limited / Google LLC — Google Tag Manager, Google Analytics 4 y Google Ads.',
+    'Meta Platforms Ireland Limited — Meta Pixel, para medir campañas.',
+    'Hotjar Ltd. y Microsoft Corporation — mapas de calor y registro anónimo de interacción.',
+  ], after: 'Estos proveedores tratan únicamente datos técnicos de navegación, como tu dirección IP o las páginas que visitas. Nunca reciben tu nombre, tu teléfono ni el relato de tu caso. Todos operan servidores fuera de Chile, por lo que su intervención implica una transferencia internacional de datos. Actúan como encargados de tratamiento y no están autorizados a usar tu información para fines propios. El detalle está en la política de cookies. Adicionalmente, podríamos entregar datos a tribunales u organismos públicos cuando una resolución judicial o una obligación legal nos lo exija.' },
+  { n: '6', id: 'derechos', title: 'Tus derechos sobre tus datos', body: [
+    'Como titular de los datos, puedes ejercer en cualquier momento y sin costo los siguientes derechos:',
+  ], list: [
+    'Acceso: saber qué datos tuyos tenemos y cómo los estamos usando.',
+    'Rectificación: corregir datos inexactos, desactualizados o incompletos.',
+    'Cancelación o supresión: pedir que eliminemos tus datos cuando ya no sean necesarios o cuando revoques tu consentimiento.',
+    'Oposición: oponerte a un tratamiento determinado.',
+    'Portabilidad: recibir tus datos en un formato estructurado y de uso común, o pedir que los enviemos a otro responsable.',
+    'Bloqueo: suspender temporalmente el tratamiento mientras se resuelve una solicitud tuya.',
+  ], after: 'Para ejercerlos, escríbenos a contacto@abogadoslaborales.cl. Si estimas que no hemos respetado tus derechos, puedes reclamar ante la Agencia de Protección de Datos Personales.' },
+  { n: '7', id: 'seguridad', title: 'Cómo protegemos tu información', body: [
+    'Aplicamos medidas técnicas y organizativas proporcionales a la sensibilidad de lo que nos confías: conexión cifrada en todo el sitio, acceso restringido a las casillas de correo donde llegan las consultas, autenticación reforzada en las cuentas del estudio y eliminación de los antecedentes una vez cumplido el plazo de conservación.',
+    'Toda la información que compartes está además amparada por el secreto profesional del abogado, que rige aunque finalmente no llegues a contratar nuestros servicios.',
+  ]},
+  { n: '8', id: 'brechas', title: 'Qué hacemos ante una brecha de seguridad', body: [
+    'Si detectamos una vulneración que afecte tus datos personales, la notificaremos a la Agencia de Protección de Datos Personales por los medios más expeditos posibles y sin dilaciones indebidas. Cuando la brecha afecte datos sensibles o pueda causarte un perjuicio, te informaremos también a ti directamente, explicándote qué ocurrió, qué datos se vieron comprometidos y qué medidas tomamos.',
+  ]},
+  { n: '9', id: 'cookies', title: 'Cookies y analítica', body: [
+    'Usamos cookies propias estrictamente necesarias para que el sitio funcione y para recordar tu decisión sobre este mismo tema. Esas no se pueden desactivar y no te identifican.',
+    'Además, si nos autorizas, activamos cookies de terceros en tres categorías: analíticas (Google Analytics 4 vía Google Tag Manager), publicitarias (Google Ads y Meta Pixel) y de comportamiento (Hotjar y Microsoft Clarity).',
+    'Ninguna cookie opcional se activa antes de que tú lo decidas. Al entrar por primera vez verás un panel donde puedes aceptar todas, rechazar las opcionales o elegir categoría por categoría. Mientras no autorices, el contenedor de Google Tag Manager ni siquiera se descarga.',
+    'La base de licitud aquí también es tu consentimiento, y es independiente del que otorgas al enviar el formulario: puedes rechazar las cookies y aun así escribirnos, o al revés. Rechazarlas no limita tu uso del sitio ni la atención de tu caso.',
+  ], after: 'Puedes cambiar tu elección en cualquier momento desde el enlace "Preferencias de cookies" del pie de página. El listado completo, con la duración de cada cookie y los períodos de conservación en Google Analytics, está en la política de cookies.' },
+  { n: '10', id: 'cambios', title: 'Cambios en esta política', body: [
+    'Podemos actualizar esta política para reflejar cambios legales o en nuestros procesos, en particular a medida que se dicten los reglamentos de la Ley 21.719. La versión vigente será siempre la publicada en esta página, con su fecha de última actualización indicada al inicio.',
+  ]},
+];
+---
+
+<Layout title="Política de privacidad y tratamiento de datos personales" description="Cómo tratamos tus datos personales conforme a la Ley 21.719: qué recogemos, para qué, cuánto tiempo los conservamos y cómo ejercer tus derechos.">
+  <section class="bg-gradient-to-br from-navy-dark via-[#0a1c2a] to-navy-dark">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Política de privacidad</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">PROTECCIÓN DE DATOS</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">Política de privacidad y tratamiento de datos personales</h1>
+        <p class="mb-6 text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          Qué datos recogemos, para qué los usamos, cuánto tiempo los conservamos y cómo puedes controlarlos. Redactada conforme a la Ley 19.628 y adecuada a la Ley 21.719, que entra en vigencia el 1 de diciembre de 2026.
+        </p>
+        <div class="inline-flex items-center gap-2.5 rounded-full border border-gold/34 bg-gold/13 px-4.5 py-2 text-sm font-semibold text-gold-light">
+          <Icon path='<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>' class="h-[17px] w-[17px]" />
+          Última actualización: agosto de 2026
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16 md:px-8">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-[1fr_280px] md:gap-14">
+      <div>
+        <div class="mb-8.5 rounded-2xl border border-[#e8e2d5] bg-white px-8 py-7.5">
+          <div class="mb-4 text-xs font-bold tracking-widest text-gold-dark">RESPONSABLE DEL TRATAMIENTO</div>
+          <div class="flex flex-col gap-2.5">
+            {responsable.map((r) => (
+              <div class="flex flex-wrap items-baseline gap-4">
+                <span class="min-w-[150px] text-[14.5px] text-[#8b9599]">{r.k}</span>
+                <span class="text-base font-semibold text-[#17272f]">{r.v}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {sections.map((s) => (
+          <div id={s.id} class="mb-10 scroll-mt-24">
+            <h2 class="mb-3.5 font-heading text-2xl font-bold leading-snug text-navy">{s.n}. {s.title}</h2>
+            <div class="flex flex-col gap-3 text-[16.5px] leading-relaxed text-[#41525a]">
+              {s.body.map((p) => <p>{p}</p>)}
+              {s.cards && s.cards.map(([title, text]) => (
+                <div class="rounded-xl border border-[#e8e2d5] bg-white px-6 py-5">
+                  <p class="mb-2 font-bold text-navy">{title}</p>
+                  <p>{text}</p>
+                </div>
+              ))}
+              {s.list && (
+                <ul class="flex flex-col gap-2 pl-5">
+                  {s.list.map((li) => <li class="list-disc">{li}</li>)}
+                </ul>
+              )}
+              {s.mid && <p>{s.mid}</p>}
+              {s.list2 && (
+                <ul class="flex flex-col gap-2 pl-5">
+                  {s.list2.map((li) => <li class="list-disc">{li}</li>)}
+                </ul>
+              )}
+              {s.after && <p>{s.after}</p>}
+            </div>
+          </div>
+        ))}
+
+        <div class="rounded-2xl border border-[#e5c988] border-l-[5px] border-l-gold bg-[#fff6e2] px-7.5 py-7">
+          <h2 class="mb-3 font-heading text-xl font-bold text-navy">Ejerce tus derechos</h2>
+          <p class="mb-4.5 leading-relaxed text-[#5c5340]">
+            Escríbenos a <a href="mailto:contacto@abogadoslaborales.cl" class="font-semibold text-gold-dark">contacto@abogadoslaborales.cl</a> indicando qué derecho quieres ejercer. Respondemos dentro de los plazos legales y sin costo para ti. Si consideras que no respetamos tus derechos, puedes reclamar ante la Agencia de Protección de Datos Personales.
+          </p>
+          <a href="mailto:contacto@abogadoslaborales.cl" class="inline-flex items-center gap-2.5 rounded-lg bg-navy px-6 py-3.5 font-bold text-cream-light">
+            <Icon path='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' class="h-[19px] w-[19px]" />
+            Escribir a contacto@abogadoslaborales.cl
+          </a>
+        </div>
+      </div>
+
+      <aside class="h-fit rounded-2xl border border-[#e8e2d5] bg-cream-light px-6 py-6.5 md:sticky md:top-24">
+        <div class="mb-4 text-xs font-bold tracking-widest text-gold-dark">CONTENIDO</div>
+        <div class="flex flex-col gap-0.5">
+          {sections.map((s) => (
+            <a href={`#${s.id}`} class="flex items-baseline gap-2.5 border-b border-[#f0ebe0] py-2 text-sm leading-snug text-[#41525a] hover:text-gold-dark">
+              <span class="font-bold text-gold">{s.n}</span>
+              <span>{s.title}</span>
+            </a>
+          ))}
+        </div>
+        <a href="/terminos" class="mt-5 flex items-center gap-2 text-sm font-bold text-gold-dark">
+          Términos de uso
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      </aside>
+    </div>
+  </section>
+</Layout>

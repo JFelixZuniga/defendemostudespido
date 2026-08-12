@@ -1,0 +1,74 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+  /** padding-top compensating the fixed header; most pages want this. */
+  padTop?: boolean;
+}
+
+const {
+  title,
+  description = 'Estudio jurídico especializado en Derecho Laboral. Defendemos a trabajadores despedidos injustificadamente en todo Chile.',
+  noindex = false,
+  padTop = true,
+} = Astro.props;
+
+const fullTitle = title.includes('Defendemos Tu Despido') ? title : `${title} | Defendemos Tu Despido`;
+const ogImage = new URL('/uploads/og-image.png', Astro.site ?? Astro.url.origin).toString();
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="es_CL" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=Montserrat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Cookie consent banner: gates GTM (and, inside it, GA4 + Meta Pixel) behind
+         explicit visitor consent via Google Consent Mode v2. See public/consent-banner.js. -->
+    <script src="/consent-banner.js" is:inline></script>
+  </head>
+  <body class="overflow-x-clip bg-cream">
+    <div class:list={[padTop && 'pt-[78px]']}>
+      <Header transparentAtTop={false} />
+      <slot />
+      <Footer />
+    </div>
+    <WhatsAppButton />
+    <script>
+      // Generic FAQ-accordion toggle: any button with [data-faq-toggle] flips
+      // data-open on its closest [data-faq-item] ancestor. Shared by the
+      // homepage FAQ and the per-service FAQ list.
+      document.addEventListener('click', (ev) => {
+        const target = ev.target as HTMLElement;
+        const btn = target.closest('[data-faq-toggle]');
+        if (!btn) return;
+        const item = btn.closest('[data-faq-item]');
+        if (!item) return;
+        const open = item.getAttribute('data-open') === 'true';
+        item.setAttribute('data-open', open ? 'false' : 'true');
+      });
+    </script>
+  </body>
+</html>

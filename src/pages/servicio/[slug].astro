@@ -1,0 +1,155 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { services, waLink } from '../../data/services';
+import { serviceDetails } from '../../data/serviceDetails';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = services.find((s) => s.slug === slug)!;
+const detail = serviceDetails[slug as string];
+const otherServices = services.filter((s) => s.slug !== slug);
+
+const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
+const CLOCK_ICON = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
+---
+
+<Layout title={service.title} description={service.desc}>
+  <section class="border-b border-gold/18 bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
+    <div class="mx-auto max-w-6xl px-6 py-13 pb-16 md:px-8">
+      <div class="mb-6 flex flex-wrap items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <a href="/servicios" class="hover:text-gold-light">Servicios</a>
+        <span>›</span>
+        <span class="text-gold-light">{service.navLabel}</span>
+      </div>
+      <div class="flex items-start gap-5">
+        <div class="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border border-gold/30 bg-gold/14 text-gold-light">
+          <Icon path={service.iconSvg} class="h-7 w-7" />
+        </div>
+        <div class="max-w-3xl">
+          <h1 class="mb-3.5 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">{service.title}</h1>
+          <p class="text-lg leading-snug text-[#c3d1c8]">{service.desc}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mx-auto grid max-w-6xl grid-cols-1 gap-9 px-6 py-20 md:grid-cols-[1fr_320px] md:gap-14 md:px-8">
+    <main>
+      <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">DE QUÉ SE TRATA</div>
+      <h2 class="mb-5 font-heading text-3xl font-bold text-navy md:text-4xl">{detail.aboutHeading}</h2>
+      {detail.about.map((p) => <p class="mb-4 text-[17px] leading-relaxed text-[#41525a]">{p}</p>)}
+      {detail.bullets.length > 0 && (
+        <div class="mb-5 mt-1.5 flex flex-col gap-3">
+          {detail.bullets.map((b) => (
+            <div class="flex items-start gap-3.5">
+              <span class="mt-2.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold"></span>
+              <span class="text-base leading-relaxed text-[#41525a]">{b}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {detail.aboutAfter.map((p) => <p class="mb-4 text-[17px] leading-relaxed text-[#41525a]">{p}</p>)}
+
+      <div class="mt-6 flex flex-wrap items-center gap-4.5 rounded-xl border-l-4 border-green bg-[#f2f7f3] px-6.5 py-5.5">
+        <p class="min-w-[280px] flex-1 font-semibold leading-snug text-[#25603c]">{detail.closing}</p>
+        <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 whitespace-nowrap rounded-lg bg-green px-6 py-3.5 font-bold text-white hover:bg-green-dark">
+          <Icon path={WA_ICON} fill="currentColor" class="h-[19px] w-[19px]" />
+          Escribir por WhatsApp
+        </a>
+      </div>
+
+      <div class="mt-10">
+        <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">MARCO LEGAL</div>
+        <h2 class="mb-5.5 font-heading text-3xl font-bold text-navy md:text-4xl">Ley aplicable</h2>
+        <div class="flex flex-col gap-3.5">
+          {detail.laws.map((l) => (
+            <div class="flex gap-4.5 rounded-lg border border-[#e8e2d5] border-l-4 border-l-gold bg-white p-5">
+              <div class="w-[130px] flex-shrink-0 font-heading font-bold text-gold">{l.ref}</div>
+              <div class="text-base leading-snug text-[#41525a]">{l.text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">TUS DERECHOS</div>
+        <h2 class="mb-5.5 font-heading text-3xl font-bold text-navy md:text-4xl">{detail.recoverHeading}</h2>
+        <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+          {detail.recover.map((r) => (
+            <div class="flex items-start gap-3 rounded-lg border border-[#d8e6db] bg-[#eef4ef] px-4.5 py-4">
+              <span class="mt-0.5 flex-shrink-0 text-[#3f8a58]"><Icon path={CHECK_ICON} class="h-5 w-5" strokeWidth={2.2} /></span>
+              <span class="text-[15.5px] font-medium leading-snug text-[#2c4a37]">{r}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">DUDAS FRECUENTES</div>
+        <h2 class="mb-5.5 font-heading text-3xl font-bold text-navy md:text-4xl">Preguntas y respuestas</h2>
+        <div class="flex flex-col gap-3">
+          {detail.faqs.map((f) => (
+            <div data-faq-item data-open="false" class="overflow-hidden rounded-xl border border-[#e8e2d5] bg-white">
+              <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-heading text-lg font-semibold text-navy">
+                <span>{f.q}</span>
+                <span class="faq-chevron flex-shrink-0 text-2xl text-gold transition-transform">+</span>
+              </button>
+              <div class="faq-row">
+                <div>
+                  <p class="whitespace-pre-line px-6 pb-5.5 text-base leading-relaxed text-[#41525a]">{f.a}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
+
+    <aside class="flex flex-col gap-5.5 md:sticky md:top-24 md:self-start">
+      <div class="rounded-2xl border border-gold/25 bg-navy p-7">
+        <div class="mb-3.5 flex items-center gap-2.5 text-gold-light">
+          <Icon path={CLOCK_ICON} class="h-5.5 w-5.5" strokeWidth={1.8} />
+          <span class="text-[13px] font-bold tracking-wide">PLAZO PARA ACTUAR</span>
+        </div>
+        <div class="mb-2.5 font-heading text-3xl font-bold leading-tight text-cream-light">{detail.deadline}</div>
+        <p class="text-sm leading-relaxed text-[#adbbc0]">{detail.deadlineNote}</p>
+      </div>
+      <div class="rounded-2xl bg-gradient-to-br from-[#0d2e1e] to-[#124026] p-7">
+        <h3 class="mb-2.5 font-heading text-xl font-bold leading-tight text-cream-light">¿Tu caso encaja aquí?</h3>
+        <p class="mb-5 text-sm leading-snug text-[#c3d1c8]">Evaluamos la viabilidad sin costo inicial. Solo cobramos si ganamos.</p>
+        <a href={waLink} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2.5 rounded-lg bg-green px-4 py-4 font-bold text-white shadow-[0_10px_26px_rgba(37,163,90,0.4)] hover:bg-green-dark">
+          <Icon path={WA_ICON} fill="currentColor" class="h-[22px] w-[22px]" />
+          Consultar por WhatsApp
+        </a>
+      </div>
+      <div class="rounded-2xl border border-dashed border-[#cdbf9f] bg-[#fbf8f0] px-6 py-5.5">
+        <div class="mb-3.5 font-heading text-sm font-bold text-navy">Otros servicios</div>
+        <div class="flex flex-col gap-2.5">
+          {otherServices.map((o) => (
+            <a href={`/servicio/${o.slug}`} class="text-[14.5px] leading-snug text-[#41525a] hover:text-gold-dark">{o.navLabel}</a>
+          ))}
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="mx-auto max-w-6xl px-6 pb-22 md:px-8">
+    <div class="flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d2e1e] via-[#124026] to-navy p-9 md:p-14">
+      <div class="max-w-xl">
+        <h2 class="mb-3 font-heading text-3xl font-bold leading-tight text-cream-light">No dejes pasar el plazo legal. <span class="text-gold-light">Actúa hoy.</span></h2>
+        <p class="text-[17px] leading-snug text-[#c3d1c8]">Escríbenos y analizamos tu caso sin costo inicial, estés donde estés en Chile.</p>
+      </div>
+      <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 whitespace-nowrap rounded-xl bg-green px-8 py-5 text-lg font-bold text-white shadow-[0_14px_34px_rgba(37,163,90,0.4)] hover:bg-green-dark">
+        <Icon path={WA_ICON} fill="currentColor" class="h-6 w-6" />
+        Consulta gratis
+      </a>
+    </div>
+  </section>
+</Layout>

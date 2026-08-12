@@ -1,0 +1,448 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { waLink } from '../data/services';
+
+const heroPoints = [
+  'Incluye años de servicio, mes de aviso, feriado proporcional y recargos legales.',
+  'No pedimos tus datos personales: el cálculo se hace en tu navegador.',
+  'Atención directa de abogados especialistas, en todo Chile.',
+];
+
+const steps = [
+  { n: '1', title: 'Ingresa tus datos', desc: 'Sueldo bruto, fechas de ingreso y despido, y la causal que aparece en tu carta.' },
+  { n: '2', title: 'Revisa el desglose', desc: 'Verás concepto por concepto cómo se forma el monto, con los topes legales aplicados.' },
+  { n: '3', title: 'Confírmalo con un abogado', desc: 'Envíanos tu carta de despido y comparamos la estimación con lo que la empresa te ofrece.' },
+];
+
+const causales = [
+  { id: '161', title: 'Art. 161', desc: 'Necesidades de la empresa o desahucio', pct: '30%' },
+  { id: '160', title: 'Art. 160', desc: 'Caducidad: conducta indebida o incumplimiento grave', pct: '80%' },
+  { id: '159', title: 'Art. 159', desc: 'Mutuo acuerdo, renuncia, plazo, obra o faena', pct: '50%' },
+];
+
+const guide = [
+  { n: '1', title: 'Remuneraciones Pendientes', body: 'Es un pago de carácter obligatorio, sin importar el motivo del despido. Corresponde al sueldo adeudado por los días efectivamente trabajados en el último mes.', items: [
+    { tag: 'Fórmula', text: '(Sueldo Bruto / 30) multiplicados por los días trabajados.', tone: 'gold' },
+  ]},
+  { n: '2', title: 'Indemnización del Mes de Aviso (Aviso Previo)', body: 'Aplica cuando la empresa no notifica el despido con al menos 30 días de anticipación, dependiendo de la causal.', items: [
+    { tag: 'Qué incluye', text: 'Sueldo base + gratificación + colación + movilización. Si el sueldo es variable, se suma el promedio de las comisiones de los últimos 3 meses.', tone: 'gold' },
+    { tag: 'Límite legal', text: 'Este ítem tiene un tope máximo de 90 UF.', tone: 'green' },
+  ]},
+  { n: '3', title: 'Indemnización por Años de Servicio', wide: true, body: 'Suele ser el monto más alto del finiquito. Para exigir este pago, el trabajador debe llevar al menos 1 año continuo en la empresa y ser despedido por causales que lo permitan (como Necesidades de la Empresa).', items: [
+    { tag: 'Aproximación', text: 'Toda fracción de tiempo igual o superior a 6 meses se redondea y cuenta como un año completo adicional.', tone: 'gold' },
+    { tag: 'Fórmula', text: 'Años trabajados multiplicados por la suma de (Sueldo base + gratificación + comisiones).', tone: 'gold' },
+    { tag: 'Límite legal', text: 'Tope de 90 UF por cada año de servicio.', tone: 'green' },
+  ]},
+  { n: '4', title: 'Feriado Proporcional (Vacaciones Pendientes)', body: 'Por ley, el trabajador acumula 1,25 días de vacaciones por cada mes trabajado. El empleador debe pagar las vacaciones acumuladas que no fueron utilizadas.', items: [
+    { tag: 'Cálculo de días', text: 'A las vacaciones totales ganadas se le restan los días ya utilizados. Al saldo restante se le suman los días inhábiles proyectados desde el día hábil posterior a la fecha del finiquito.', tone: 'gold' },
+    { tag: 'Monto a pagar', text: 'Se toma el sueldo base (más comisiones, si aplica) y se calcula en base al total de días hábiles e inhábiles resultantes.', tone: 'gold' },
+  ]},
+  { n: '5', title: 'Indemnización por Tiempo Servido (Obra o Faena)', body: 'Este derecho es exclusivo para los contratos que terminan por la causal del Artículo 159 N° 5 (conclusión de la obra o faena que dio origen al contrato).', items: [
+    { tag: 'Cálculo', text: 'Equivale a 2,5 días de la última remuneración por cada mes trabajado, o por cada fracción superior a 15 días.', tone: 'gold' },
+    { tag: 'Descuentos', text: 'La empresa está facultada legalmente para descontar de este monto el aporte que haya realizado al Seguro de Cesantía (AFC) del trabajador.', tone: 'red' },
+  ]},
+];
+
+const recargos = [
+  { art: 'Art. 161', pct: '30%', desc: 'Necesidades de la empresa o desahucio que el empleador no logra acreditar.' },
+  { art: 'Art. 160', pct: '80%', desc: 'Conducta indebida o incumplimiento grave imputado al trabajador sin prueba suficiente.' },
+  { art: 'Art. 159', pct: '50%', desc: 'Término del contrato invocado indebidamente por el empleador.' },
+];
+
+const mistakes = [
+  { title: 'Firmar el finiquito sin reserva de derechos', desc: 'El documento puede tener efecto liberatorio sobre todo lo que no quedó expresamente reservado.' },
+  { title: 'Aceptar la causal sin revisarla', desc: 'Un cambio de causal puede significar millones de pesos en recargos legales.' },
+  { title: 'Dejar pasar los 60 días hábiles', desc: 'El plazo para demandar es de caducidad. Vencido, ya no es posible reclamar judicialmente.' },
+  { title: 'No revisar las cotizaciones', desc: 'Si estaban impagas al momento del despido, puede configurarse la nulidad del despido (Ley Bustos).' },
+];
+
+const toneClasses: Record<string, string> = {
+  gold: 'border-l-gold-dark',
+  green: 'border-l-[#3f8a58]',
+  red: 'border-l-[#c0503f]',
+};
+
+const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
+const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
+---
+
+<Layout title="¿Cómo calcular tu finiquito por despido? | Guía Legal Paso a Paso" description="Descubre cómo calcular tu finiquito en Chile. Aprende qué montos exige la ley por años de servicio, vacaciones proporcionales y mes de aviso. Evalúa tu caso gratis.">
+  <section class="bg-gradient-to-br from-navy-dark via-[#0a1c2a] to-navy-dark">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Calcular finiquito</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">CÁLCULO GRATUITO Y SIN REGISTRO</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">¿Cómo calcular tu finiquito por despido?</h1>
+        <p class="mb-8 text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          Estima en menos de 30 segundos cuánto podrían corresponderte por años de servicio, mes de aviso y vacaciones pendientes. Luego, un abogado laboral revisa tu carta de despido sin costo.
+        </p>
+        <div class="mb-8 flex flex-wrap gap-4 gap-x-9">
+          {heroPoints.map((p) => (
+            <div class="flex max-w-[330px] items-start gap-3">
+              <span class="mt-0.5 flex-shrink-0 text-[#7ed3a0]"><Icon path={CHECK_ICON} class="h-[19px] w-[19px]" strokeWidth={2.4} /></span>
+              <span class="text-base leading-snug text-[#dbe4e2]">{p}</span>
+            </div>
+          ))}
+        </div>
+        <a href="#calculadora" class="inline-flex items-center gap-3 rounded-xl bg-gradient-to-b from-[#c9a662] to-[#b08942] px-7.5 py-4.5 font-bold tracking-wide text-white shadow-[0_12px_28px_rgba(176,137,66,0.32)]">
+          CALCULAR MI FINIQUITO
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA -->
+  <section class="border-b border-[#e3dbc9] bg-[#f0ebe0] px-6 py-18 pb-20 md:px-8">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 items-start gap-14 md:grid-cols-[1fr_470px]">
+      <div class="pt-1.5">
+        <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">CALCULADORA</div>
+        <h2 class="mb-4 font-heading text-3xl font-bold leading-tight text-navy md:text-4xl">Estima tu finiquito en menos de 30 segundos</h2>
+        <p class="mb-7.5 max-w-lg text-lg leading-relaxed text-[#41525a]">Completa los cuatro datos que aparecen en tu carta de despido. El cálculo se hace en tu navegador: no pedimos tus datos personales ni registro.</p>
+        <div class="flex flex-col gap-3.5">
+          {steps.map((s) => (
+            <div class="flex items-start gap-3.5">
+              <span class="flex h-7.5 w-7.5 flex-shrink-0 items-center justify-center rounded-[9px] border border-[#e3dac6] bg-white font-heading text-[15px] font-bold text-gold-dark">{s.n}</span>
+              <span>
+                <span class="block text-base font-bold text-navy">{s.title}</span>
+                <span class="mt-0.5 block text-[15px] leading-snug text-[#5a6a70]">{s.desc}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div id="calculadora" class="scroll-mt-24 overflow-hidden rounded-[20px] border border-gold/32 bg-cream-light shadow-[0_22px_50px_rgba(12,34,49,0.13)]">
+        <div class="bg-gradient-to-b from-navy to-[#0e2a3c] px-7.5 pb-6 pt-7.5 text-center">
+          <h2 class="mb-1.5 font-heading text-2xl font-bold leading-tight text-gold-light">Calcula gratis tu finiquito</h2>
+          <p id="step-label" class="text-sm font-semibold text-[#c3d1c8]">Paso 1 de 2 · Completa tus datos</p>
+          <div class="mt-4 h-[5px] overflow-hidden rounded-full bg-white/14">
+            <div id="progress-bar" class="h-full rounded-full bg-gradient-to-r from-[#c9a662] to-gold-light transition-all duration-300" style="width:6%"></div>
+          </div>
+        </div>
+
+        <div class="px-7 pb-8 pt-7">
+          <form id="calc-form" class="flex flex-col gap-4.5">
+            <div>
+              <label for="sueldo" class="mb-1.5 block text-sm font-semibold text-navy">Sueldo bruto mensual</label>
+              <div class="relative">
+                <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 font-semibold text-[#9aa7ac]">$</span>
+                <input id="sueldo" name="sueldo" type="text" inputmode="numeric" placeholder="1.200.000" class="w-full rounded-[10px] border border-[#ded6c5] bg-white py-3.5 pl-8 pr-4 text-[17px] font-semibold text-ink focus:border-gold focus:shadow-[0_0_0_3px_rgba(198,161,91,0.18)] focus:outline-none" />
+              </div>
+              <p class="mt-1.5 text-[13px] leading-tight text-[#8b9599]">Incluye sueldo base, gratificación, colación y movilización.</p>
+              <p class="mt-3.5 flex items-start gap-2 text-[13.5px] font-semibold leading-tight text-[#3f8a58]">
+                <Icon path='<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>' class="mt-0.5 h-4 w-4 flex-shrink-0" />
+                El cálculo ocurre en tu navegador: nada de lo que ingreses se envía ni se guarda.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+              <div>
+                <label for="ingreso" class="mb-1.5 block text-sm font-semibold text-navy">Fecha de ingreso</label>
+                <input id="ingreso" name="ingreso" type="date" class="w-full rounded-[10px] border border-[#ded6c5] bg-white px-3.5 py-3.5 text-[15.5px] text-ink focus:border-gold focus:outline-none" />
+              </div>
+              <div>
+                <label for="despido" class="mb-1.5 block text-sm font-semibold text-navy">Fecha del despido</label>
+                <input id="despido" name="despido" type="date" class="w-full rounded-[10px] border border-[#ded6c5] bg-white px-3.5 py-3.5 text-[15.5px] text-ink focus:border-gold focus:outline-none" />
+              </div>
+            </div>
+
+            <div>
+              <label class="mb-2 block text-sm font-semibold text-navy">Causal del despido</label>
+              <div id="causal-group" class="flex flex-col gap-2.5">
+                {causales.map((c) => (
+                  <button type="button" data-causal={c.id} class="causal-btn flex w-full items-start gap-3.5 rounded-[11px] border-[1.5px] border-[#e8e2d5] bg-white px-4 py-3.5 text-left transition-colors hover:border-gold">
+                    <span class="causal-dot mt-0.5 flex h-[18px] w-[18px] flex-shrink-0 items-center justify-center rounded-full border-2 border-[#cdd5d8]">
+                      <span class="causal-dot-fill h-2 w-2 rounded-full bg-transparent"></span>
+                    </span>
+                    <span class="flex-1">
+                      <span class="block text-[15.5px] font-bold text-navy">{c.title}</span>
+                      <span class="mt-0.5 block text-[13.5px] leading-snug text-[#6d7b81]">{c.desc}</span>
+                    </span>
+                    <span class="flex-shrink-0 whitespace-nowrap rounded-md bg-gold/16 px-2.5 py-0.5 text-[12.5px] font-bold text-[#8f6a22]">+{c.pct}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button type="submit" id="calc-submit" class="mt-1.5 flex w-full items-center justify-center gap-3.5 rounded-[11px] bg-gradient-to-b from-[#c9a662] to-[#b08942] py-4.5 font-bold tracking-wide text-white shadow-[0_12px_26px_rgba(176,137,66,0.35)]">
+              <span id="calc-btn-label">CALCULAR MI FINIQUITO</span>
+              <span id="calc-spinner" class="hidden h-5 w-5 flex-shrink-0 animate-spin-fast rounded-full border-[2.5px] border-white/35 border-t-white"></span>
+              <span id="calc-arrow" class="flex h-6.5 w-6.5 items-center justify-center rounded-full bg-white/22">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+              </span>
+            </button>
+          </form>
+
+          <p id="calc-error" class="mt-3.5 hidden rounded-lg border-l-[3px] border-[#c0503f] bg-[#fdf1ef] px-4 py-3.5 text-[14.5px] leading-snug text-[#8f3527]"></p>
+
+          <div id="calc-result" class="mt-5.5 hidden">
+            <div class="rounded-2xl border border-[#cfe1d5] bg-[#eef4ef] p-6 text-center">
+              <p class="mb-1 text-[15px] font-semibold text-[#3d5c48]">Tu finiquito estimado podría superar los</p>
+              <div id="result-total" class="font-heading text-[44px] font-extrabold leading-none tracking-tight text-[#1f7a45]"></div>
+              <p class="mt-2 text-[13px] leading-snug text-[#5a7563]">*Monto referencial. El resultado final puede variar.</p>
+            </div>
+            <div class="mt-3.5 overflow-hidden rounded-2xl border border-[#ece5d5]">
+              <div class="bg-[#f4efe3] px-4.5 py-3 text-[12.5px] font-bold tracking-wide text-[#8f6a22]">DETALLE DEL CÁLCULO</div>
+              <div id="result-rows" class="flex flex-col px-4.5 pb-2"></div>
+              <div class="flex items-baseline justify-between gap-4 px-4.5 pb-4 pt-3.5">
+                <div class="font-heading text-[17px] font-bold text-navy">Total estimado</div>
+                <div id="result-total-2" class="font-heading text-xl font-extrabold text-[#1f7a45]"></div>
+              </div>
+            </div>
+            <div class="mt-4 flex flex-col gap-2.5">
+              <a id="result-wa-link" href={waLink} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2.5 rounded-[10px] bg-green px-4 py-4 font-bold text-white shadow-[0_12px_28px_rgba(37,163,90,0.32)] hover:bg-green-dark">
+                <Icon path={WA_ICON} fill="currentColor" class="h-[21px] w-[21px]" />
+                Que un abogado revise mi caso
+              </a>
+              <p class="text-center text-[13px] leading-snug text-[#8b9599]">Enviamos tu estimación al chat para que no la pierdas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍA LEGAL -->
+  <section id="guia" class="mx-auto max-w-6xl px-6 py-20 md:px-8">
+    <div class="mb-11 max-w-2xl">
+      <div class="mb-3.5 text-[13px] font-bold tracking-widest text-gold-dark">GUÍA LEGAL</div>
+      <h2 class="mb-4.5 font-heading text-3xl font-bold leading-tight text-navy md:text-4xl">¿Cómo se calcula un finiquito de trabajo en Chile?</h2>
+      <p class="text-lg leading-relaxed text-[#41525a]">El cálculo del finiquito depende exclusivamente de la causal legal de término de contrato aplicada por el empleador (Artículos 159, 160 y 161 del Código del Trabajo). Según la causal, el trabajador tendrá derecho al pago de los siguientes conceptos:</p>
+    </div>
+    <div class="grid grid-cols-1 items-start gap-5.5 md:grid-cols-2">
+      {guide.map((g) => (
+        <div class:list={["rounded-2xl border border-[#e8e2d5] bg-white p-7.5 md:p-8", g.wide && "md:col-span-2"]}>
+          <div class="mb-3.5 flex items-start gap-4">
+            <div class="flex h-10.5 w-10.5 flex-shrink-0 items-center justify-center rounded-[11px] bg-navy font-heading text-lg font-bold text-gold-light">{g.n}</div>
+            <h3 class="mt-1.5 font-heading text-xl font-bold leading-snug text-navy">{g.title}</h3>
+          </div>
+          <p class="mb-4.5 leading-relaxed text-[#41525a]">{g.body}</p>
+          <div class="flex flex-col gap-2.5">
+            {g.items.map((it) => (
+              <div class:list={["flex items-start gap-3 rounded-[9px] border-l-[3px] bg-[#faf6ec] px-4 py-3.5", toneClasses[it.tone]]}>
+                <span class:list={["min-w-[104px] flex-shrink-0 text-[12.5px] font-bold uppercase tracking-wide", it.tone === 'gold' && 'text-gold-dark', it.tone === 'green' && 'text-[#3f8a58]', it.tone === 'red' && 'text-[#c0503f]']}>{it.tag}</span>
+                <span class="text-[15.5px] leading-snug text-[#3f4f56]">{it.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- RECARGOS -->
+  <section class="mx-auto max-w-6xl px-6 pt-2 md:px-8">
+    <div class="rounded-3xl bg-navy p-9 md:p-11">
+      <div class="mb-8 max-w-2xl">
+        <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-light">RECARGOS LEGALES</div>
+        <h2 class="mb-3.5 font-heading text-3xl font-bold leading-tight text-cream-light md:text-4xl">La causal invocada cambia todo el resultado</h2>
+        <p class="leading-relaxed text-[#adbbc0]">Si el tribunal declara que la causal fue mal invocada o que la empresa no logró acreditar los hechos, tu indemnización por años de servicio se incrementa con un recargo legal.</p>
+      </div>
+      <div class="grid grid-cols-1 gap-4.5 sm:grid-cols-3">
+        {recargos.map((c) => (
+          <div class="rounded-2xl border border-gold/28 bg-white/5 p-6.5">
+            <div class="mb-3 flex items-baseline justify-between gap-3">
+              <span class="font-heading text-xl font-bold text-gold-light">{c.art}</span>
+              <span class="font-heading text-[30px] font-extrabold leading-none text-[#7ed3a0]">+{c.pct}</span>
+            </div>
+            <p class="text-[15px] leading-snug text-[#adbbc0]">{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ERRORES FRECUENTES -->
+  <section class="mx-auto max-w-6xl px-6 py-20 md:px-8">
+    <div class="mb-9 max-w-2xl">
+      <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">ANTES DE FIRMAR</div>
+      <h2 class="font-heading text-3xl font-bold leading-tight text-navy md:text-4xl">Los errores que más dinero le cuestan a los trabajadores</h2>
+    </div>
+    <div class="grid grid-cols-1 gap-4.5 sm:grid-cols-2">
+      {mistakes.map((m) => (
+        <div class="rounded-2xl border border-[#e5c988] bg-[#fff6e2] p-6.5">
+          <div class="mb-2.5 flex items-center gap-2.5">
+            <span class="text-gold-dark"><Icon path='<path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/>' class="h-5 w-5" /></span>
+            <h3 class="font-heading text-lg font-bold leading-snug text-navy">{m.title}</h3>
+          </div>
+          <p class="leading-relaxed text-[#5c5340]">{m.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-6xl px-6 pb-22 md:px-8">
+    <div class="flex flex-wrap items-center justify-between gap-10 rounded-3xl bg-gradient-to-br from-[#0d2e1e] via-[#124026] to-navy p-9 md:p-14">
+      <div class="max-w-xl">
+        <h2 class="mb-3 font-heading text-3xl font-bold leading-tight text-cream-light">Una estimación no es un peritaje. <span class="text-gold-light">Que un abogado lo revise.</span></h2>
+        <p class="text-[17px] leading-relaxed text-[#c3d1c8]">Envíanos tu carta de despido y tu finiquito. Revisamos la causal, el cálculo y los plazos sin costo, estés donde estés en Chile.</p>
+      </div>
+      <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 whitespace-nowrap rounded-xl bg-green px-8 py-5 text-lg font-bold text-white shadow-[0_14px_34px_rgba(37,163,90,0.4)] hover:bg-green-dark">
+        <Icon path={WA_ICON} fill="currentColor" class="h-6 w-6" />
+        Consulta gratis
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Finiquito calculator — ported 1:1 from the source design's client-side
+  // formula. Nothing here is sent to a server; everything runs in-browser.
+  const VALOR_UF = 39500; // matches the source's default `valorUF` prop
+
+  const RATE_BY_CAUSAL: Record<string, number> = { '159': 0.5, '160': 0.8, '161': 0.3 };
+
+  const fmt = (n: number) => '$' + Math.round(n).toLocaleString('es-CL');
+
+  function monthsBetween(a: string, b: string) {
+    const d1 = new Date(a + 'T00:00:00');
+    const d2 = new Date(b + 'T00:00:00');
+    let m = (d2.getFullYear() - d1.getFullYear()) * 12 + (d2.getMonth() - d1.getMonth());
+    if (d2.getDate() < d1.getDate()) m -= 1;
+    return { months: Math.max(0, m), d1, d2 };
+  }
+
+  const sueldoInput = document.getElementById('sueldo') as HTMLInputElement;
+  const ingresoInput = document.getElementById('ingreso') as HTMLInputElement;
+  const despidoInput = document.getElementById('despido') as HTMLInputElement;
+  const form = document.getElementById('calc-form') as HTMLFormElement;
+  const errorEl = document.getElementById('calc-error') as HTMLElement;
+  const resultEl = document.getElementById('calc-result') as HTMLElement;
+  const resultRows = document.getElementById('result-rows') as HTMLElement;
+  const resultTotal = document.getElementById('result-total') as HTMLElement;
+  const resultTotal2 = document.getElementById('result-total-2') as HTMLElement;
+  const resultWaLink = document.getElementById('result-wa-link') as HTMLAnchorElement;
+  const submitBtn = document.getElementById('calc-submit') as HTMLButtonElement;
+  const btnLabel = document.getElementById('calc-btn-label') as HTMLElement;
+  const spinner = document.getElementById('calc-spinner') as HTMLElement;
+  const arrow = document.getElementById('calc-arrow') as HTMLElement;
+  const stepLabel = document.getElementById('step-label') as HTMLElement;
+  const progressBar = document.getElementById('progress-bar') as HTMLElement;
+
+  let selectedCausal: string | null = null;
+
+  sueldoInput.addEventListener('input', () => {
+    const digits = sueldoInput.value.replace(/\D/g, '').slice(0, 12);
+    sueldoInput.value = digits ? parseInt(digits, 10).toLocaleString('es-CL') : '';
+    updateProgress();
+  });
+  ingresoInput.addEventListener('input', updateProgress);
+  despidoInput.addEventListener('input', updateProgress);
+
+  document.querySelectorAll<HTMLButtonElement>('.causal-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      selectedCausal = btn.dataset.causal ?? null;
+      document.querySelectorAll('.causal-btn').forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle('border-gold', on);
+        b.classList.toggle('bg-[#fdf8ec]', on);
+        const dot = b.querySelector('.causal-dot') as HTMLElement;
+        const fill = b.querySelector('.causal-dot-fill') as HTMLElement;
+        dot.classList.toggle('border-gold-dark', on);
+        dot.classList.toggle('border-[#cdd5d8]', !on);
+        fill.classList.toggle('bg-gold-dark', on);
+        fill.classList.toggle('bg-transparent', !on);
+      });
+      updateProgress();
+    });
+  });
+
+  function updateProgress() {
+    const filled = [sueldoInput.value, ingresoInput.value, despidoInput.value, selectedCausal].filter(Boolean).length;
+    progressBar.style.width = Math.max(6, (filled / 4) * 100) + '%';
+  }
+
+  function showError(msg: string) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+    resultEl.classList.add('hidden');
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    errorEl.classList.add('hidden');
+    resultEl.classList.add('hidden');
+
+    const bruto = parseInt(sueldoInput.value.replace(/\D/g, ''), 10);
+    if (!bruto) return showError('Ingresa tu sueldo bruto mensual.');
+    if (!ingresoInput.value || !despidoInput.value) return showError('Ingresa la fecha de ingreso y la fecha del despido.');
+    const { months, d1, d2 } = monthsBetween(ingresoInput.value, despidoInput.value);
+    if (d2 <= d1) return showError('La fecha del despido debe ser posterior a la fecha de ingreso.');
+    if (!selectedCausal) return showError('Selecciona la causal del despido.');
+
+    // Loading state (matches the source's fake 650ms "calculating" delay).
+    btnLabel.textContent = 'CALCULANDO…';
+    spinner.classList.remove('hidden');
+    arrow.classList.add('hidden');
+    submitBtn.disabled = true;
+    stepLabel.textContent = 'Paso 2 de 2 · Revisa tu desglose';
+    progressBar.style.width = '100%';
+
+    window.setTimeout(() => {
+      const tope = Math.round(90 * VALOR_UF);
+      const base = Math.min(bruto, tope);
+      const diario = bruto / 30;
+
+      const fullYears = Math.floor(months / 12);
+      const rest = months % 12;
+      const countedYears = Math.min(11, fullYears + (rest >= 6 ? 1 : 0));
+
+      // The source design has no UI for "días trabajados último mes" /
+      // "días de feriado ya tomados" / "aviso dado" / "obra o faena" — those
+      // state fields exist in the component but default to empty/false and
+      // are never exposed to the visitor, so we mirror that faithfully.
+      const diasMes = 0;
+      const remPend = diario * diasMes;
+      const avisoDado = false;
+      const aviso = avisoDado ? 0 : base;
+      const ias = countedYears >= 1 ? base * countedYears : 0;
+      const mesesPeriodo = months % 12;
+      const diasGanados = mesesPeriodo * 1.25;
+      const diasTomados = 0;
+      const diasFeriado = Math.max(0, diasGanados - diasTomados);
+      const feriado = diario * diasFeriado;
+      const obraFaena = false;
+      const tiempoServido = obraFaena ? diario * 2.5 * months : 0;
+
+      const subtotal = remPend + aviso + ias + feriado + tiempoServido;
+      const rate = RATE_BY_CAUSAL[selectedCausal as string] || 0;
+      const recargo = ias * rate;
+      const total = subtotal + recargo;
+
+      const rows: { label: string; note: string; value: string }[] = [];
+      if (remPend > 0) rows.push({ label: 'Remuneraciones pendientes', note: `${diasMes} día(s) del último mes`, value: fmt(remPend) });
+      if (aviso > 0) rows.push({ label: 'Indemnización del mes de aviso', note: bruto > tope ? 'Topada en 90 UF' : 'Equivalente a una remuneración mensual', value: fmt(aviso) });
+      rows.push({ label: 'Indemnización por años de servicio', note: countedYears >= 1 ? `${fullYears}a ${rest}m → ${countedYears} año(s) computados, tope 11` : 'Requiere un año o más de antigüedad', value: fmt(ias) });
+      if (feriado > 0) rows.push({ label: 'Feriado proporcional', note: `${diasFeriado.toFixed(1).replace('.', ',')} días del período en curso (1,25 por mes). No incluye feriados de años anteriores no tomados.`, value: fmt(feriado) });
+      if (tiempoServido > 0) rows.push({ label: 'Indemnización por tiempo servido', note: '2,5 días por mes (obra o faena, art. 159 N° 5)', value: fmt(tiempoServido) });
+      if (recargo > 0) rows.push({ label: 'Recargo legal por la causal', note: `Art. ${selectedCausal} — ${Math.round(rate * 100)}% sobre los años de servicio`, value: fmt(recargo) });
+
+      resultRows.innerHTML = rows
+        .map(
+          (r) => `<div class="flex items-baseline justify-between gap-4 border-b border-[#f0ebe0] py-3">
+            <div><div class="text-[14.5px] font-semibold text-ink">${r.label}</div><div class="mt-0.5 text-[12.5px] leading-snug text-[#8b9599]">${r.note}</div></div>
+            <div class="whitespace-nowrap text-[15px] font-bold text-navy">${r.value}</div>
+          </div>`
+        )
+        .join('');
+      resultTotal.textContent = fmt(total);
+      resultTotal2.textContent = fmt(total);
+      resultWaLink.href =
+        'https://wa.me/56912345678?text=' +
+        encodeURIComponent(`Hola, usé la calculadora y mi finiquito estimado es ${fmt(total)}. Quisiera que revisen mi caso.`);
+
+      resultEl.classList.remove('hidden');
+      btnLabel.textContent = 'CALCULAR MI FINIQUITO';
+      spinner.classList.add('hidden');
+      arrow.classList.remove('hidden');
+      submitBtn.disabled = false;
+    }, 650);
+  });
+</script>

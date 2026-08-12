@@ -1,0 +1,191 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+
+const sections = [
+  { n: '1', id: 'que-son', title: 'Qué son las cookies', body: [
+    'Una cookie es un archivo pequeño que un sitio guarda en tu navegador para recordar información entre visitas. Bajo la misma categoría incluimos tecnologías equivalentes como el almacenamiento local del navegador y los píxeles de seguimiento.',
+    'Algunas son imprescindibles para que la página funcione. Otras solo sirven para medir o para publicidad, y esas requieren tu autorización previa.',
+  ]},
+  { n: '2', id: 'consentimiento', title: 'Nada se activa sin tu autorización', body: [
+    'Al entrar por primera vez verás un panel donde puedes aceptar todas las cookies, rechazar las opcionales o elegir categoría por categoría. Hasta que decidas, solo funcionan las cookies estrictamente necesarias: las etiquetas de medición y publicidad permanecen bloqueadas.',
+    'Esto se implementa con el modo de consentimiento de Google: mientras no autorices, el contenedor de Google Tag Manager no se descarga y ninguna herramienta recibe datos tuyos.',
+    'Rechazar las cookies opcionales no limita en nada tu uso del sitio ni la atención de tu caso.',
+  ]},
+  { n: '3', id: 'categorias', title: 'Categorías que usamos', body: [
+    'Agrupamos las cookies en cuatro categorías. Solo la primera está siempre activa.',
+  ], list: [
+    ['Estrictamente necesarias.', 'Permiten la navegación y recuerdan tu decisión sobre cookies. Son propias y no se pueden desactivar.'],
+    ['Analíticas.', 'Google Analytics 4, a través de Google Tag Manager. Nos indican de forma agregada qué páginas se leen, cuánto tiempo y por dónde se abandona el sitio.'],
+    ['Publicidad.', 'Google Ads y Meta Pixel. Permiten medir el rendimiento de nuestras campañas y mostrarte anuncios nuestros en otros sitios o redes sociales.'],
+    ['Comportamiento.', 'Hotjar y Microsoft Clarity. Registran de forma anónima clics y desplazamiento para detectar dónde la página confunde o falla.'],
+  ], after: 'Ninguna de estas herramientas recibe el contenido de tu consulta, tu carta de despido ni los antecedentes de tu caso. Esa información viaja solo por el formulario o por WhatsApp, tal como se explica en la política de privacidad.' },
+  { n: '4', id: 'calculadora', title: 'La calculadora sigue sin enviar datos', body: [
+    'Conviene aclararlo porque es la sección que más preocupa: el sueldo, las fechas y la causal que ingresas en la calculadora de finiquito se procesan íntegramente en tu navegador y no se envían a ningún servidor, tengas o no las cookies activadas. Las herramientas de medición solo saben que alguien visitó la página, no qué escribió en ella.',
+  ]},
+];
+
+const sections2 = [
+  { n: '6', id: 'terceros', title: 'Quién trata estos datos y dónde', body: [
+    'Las cookies opcionales implican que proveedores externos traten datos técnicos tuyos, como tu dirección IP, tu navegador y las páginas que visitas. Estos proveedores actúan como encargados de tratamiento y operan servidores fuera de Chile, por lo que existe una transferencia internacional de datos:',
+  ], list: [
+    ['Google Ireland Limited / Google LLC', '— Google Tag Manager, Google Analytics 4 y Google Ads.'],
+    ['Meta Platforms Ireland Limited', '— Meta Pixel.'],
+    ['Hotjar Ltd. y Microsoft Corporation', '— mapas de calor y grabación anónima de interacción.'],
+  ], after2: [
+    'Con Google Analytics tenemos activada la anonimización de direcciones IP, de modo que el último tramo de tu IP se descarta antes de almacenarla, y el período de conservación de los datos de usuario está fijado en 14 meses. También está activada la redacción de datos publicitarios mientras no otorgues consentimiento.',
+    'Estos proveedores tratan la información conforme a sus propias políticas, que puedes consultar en sus sitios. No les entregamos tu nombre, tu teléfono ni el relato de tu caso.',
+  ] },
+  { n: '7', id: 'revocar', title: 'Cómo cambiar o revocar tu consentimiento', body: [
+    'Tienes tres caminos, todos disponibles en cualquier momento:',
+  ], list: [
+    ['Usa el botón "Configurar mis cookies"', 'de esta página o el enlace "Preferencias de cookies" del pie de cualquier página. Se abre el mismo panel y puedes activar o desactivar cada categoría.'],
+    ['Borra las cookies', 'desde la configuración de tu navegador. Al hacerlo también se borra el registro de tu decisión, así que volveremos a preguntarte en la siguiente visita.'],
+    ['Escríbenos', 'a contacto@abogadoslaborales.cl y lo gestionamos por ti.'],
+  ], after: 'La revocación surte efecto de inmediato hacia adelante y no afecta la licitud del tratamiento realizado mientras el consentimiento estuvo vigente.' },
+  { n: '8', id: 'navegador', title: 'Control desde tu navegador', body: [
+    'Además de nuestro panel, todos los navegadores permiten bloquear o eliminar cookies desde sus preferencias, normalmente en la sección de privacidad o seguridad. También puedes navegar en modo incógnito para que las cookies se descarten al cerrar la ventana.',
+    'Ten presente que bloquear todas las cookies desde el navegador puede afectar el funcionamiento de este y de otros sitios.',
+  ]},
+  { n: '9', id: 'cambios', title: 'Cambios en esta política', body: [
+    'Si incorporamos nuevas herramientas o cambian las existentes, actualizaremos esta página y volveremos a solicitar tu consentimiento cuando la nueva finalidad lo requiera. La versión vigente es siempre la publicada aquí, con su fecha de última actualización.',
+  ]},
+];
+
+const grupos = [
+  { nombre: 'Estrictamente necesarias', estado: 'Siempre activas', dot: '#3f8a58', headBg: '#f2f7f3', cookies: [
+    { nombre: 'dtd_consent_v1', fin: 'Guarda tu decisión sobre cada categoría de cookies.', prov: 'Propia · almacenamiento local', dura: '12 meses' },
+  ]},
+  { nombre: 'Analíticas', estado: 'Requieren consentimiento', dot: '#b98b3e', headBg: '#faf6ec', cookies: [
+    { nombre: '_ga', fin: 'Distingue visitantes de forma seudonimizada.', prov: 'Google Analytics 4', dura: '2 años' },
+    { nombre: '_ga_<ID>', fin: 'Mantiene el estado de la sesión de análisis.', prov: 'Google Analytics 4', dura: '2 años' },
+    { nombre: '_gid', fin: 'Distingue visitantes dentro de un mismo día.', prov: 'Google Analytics 4', dura: '24 horas' },
+  ]},
+  { nombre: 'Publicidad', estado: 'Requieren consentimiento', dot: '#b98b3e', headBg: '#faf6ec', cookies: [
+    { nombre: '_gcl_au', fin: 'Mide conversiones de campañas publicitarias.', prov: 'Google Ads', dura: '3 meses' },
+    { nombre: 'IDE / test_cookie', fin: 'Permite mostrar anuncios nuestros en otros sitios.', prov: 'Google (doubleclick.net)', dura: '13 meses' },
+    { nombre: '_fbp', fin: 'Identifica navegadores para medir campañas en redes.', prov: 'Meta Pixel', dura: '3 meses' },
+  ]},
+  { nombre: 'Comportamiento', estado: 'Requieren consentimiento', dot: '#b98b3e', headBg: '#faf6ec', cookies: [
+    { nombre: '_hjSessionUser', fin: 'Identifica la sesión para el mapa de calor.', prov: 'Hotjar', dura: '12 meses' },
+    { nombre: '_hjSession', fin: 'Agrupa las interacciones de una misma visita.', prov: 'Hotjar', dura: '30 minutos' },
+    { nombre: '_clck / _clsk', fin: 'Registra clics y desplazamiento de forma anónima.', prov: 'Microsoft Clarity', dura: '12 meses / 1 día' },
+  ]},
+];
+
+const toc = [...sections, { n: '5', id: 'tabla', title: 'Detalle de cada cookie' }, ...sections2];
+---
+
+<Layout title="Política de cookies" description="Qué cookies usa el sitio, para qué sirven, cuánto duran y cómo revocar tu consentimiento en cualquier momento.">
+  <section class="bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
+    <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
+      <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
+        <a href="/" class="hover:text-gold-light">Inicio</a>
+        <span>›</span>
+        <span class="text-gold-light">Política de cookies</span>
+      </div>
+      <div class="max-w-3xl">
+        <div class="mb-4 text-sm font-bold tracking-widest text-gold-light">COOKIES</div>
+        <h1 class="mb-4 font-heading text-4xl font-bold leading-tight text-cream-light md:text-5xl">Política de cookies</h1>
+        <p class="mb-6 text-lg leading-snug text-[#c3d1c8] md:text-xl">
+          Qué cookies usamos, para qué sirven, cuánto duran y cómo cambiar tu decisión en cualquier momento. Ninguna cookie opcional se activa antes de que tú la autorices.
+        </p>
+        <div class="flex flex-wrap items-center gap-3.5">
+          <button type="button" data-cookie-settings="true" class="inline-flex items-center gap-2.5 rounded-xl bg-gradient-to-b from-[#d3b070] to-[#c39a4d] px-7 py-4 font-bold text-[#12243a] shadow-[0_12px_28px_rgba(176,137,66,0.32)]">
+            <Icon path='<circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/>' class="h-[19px] w-[19px]" />
+            Configurar mis cookies
+          </button>
+          <span class="inline-flex items-center gap-2 text-sm text-[#8fa0a7]">
+            <Icon path='<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/>' class="h-4 w-4" />
+            Última actualización: agosto de 2026
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-16 md:px-8">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-[1fr_280px] md:gap-14">
+      <div>
+        {sections.map((s) => (
+          <div id={s.id} class="mb-10 scroll-mt-24">
+            <h2 class="mb-3.5 font-heading text-2xl font-bold leading-snug text-navy">{s.n}. {s.title}</h2>
+            <div class="flex flex-col gap-3 text-[16.5px] leading-relaxed text-[#41525a]">
+              {s.body.map((p) => <p>{p}</p>)}
+              {s.list && (
+                <ul class="flex flex-col gap-2 pl-5">
+                  {s.list.map(([strong, rest]) => <li class="list-disc"><strong class="text-[#17272f]">{strong}</strong> {rest}</li>)}
+                </ul>
+              )}
+              {s.after && <p>{s.after}</p>}
+            </div>
+          </div>
+        ))}
+
+        <div id="tabla" class="mb-10 scroll-mt-24">
+          <h2 class="mb-2 font-heading text-2xl font-bold leading-snug text-navy">5. Detalle de cada cookie</h2>
+          <p class="mb-5.5 text-[16.5px] leading-relaxed text-[#41525a]">Las duraciones son las que declaran los proveedores y pueden variar si actualizan sus servicios.</p>
+          {grupos.map((g) => (
+            <div class="mb-4 overflow-hidden rounded-2xl border border-[#e8e2d5] bg-white">
+              <div class="flex flex-wrap items-center gap-3 border-b border-[#ece5d5] px-5.5 py-4" style={`background:${g.headBg}`}>
+                <span class="h-2 w-2 flex-shrink-0 rounded-full" style={`background:${g.dot}`}></span>
+                <span class="text-base font-bold text-navy">{g.nombre}</span>
+                <span class="ml-auto text-xs font-bold uppercase tracking-wide" style={`color:${g.dot}`}>{g.estado}</span>
+              </div>
+              <div class="px-5.5 pb-4 pt-1.5">
+                {g.cookies.map((c) => (
+                  <div class="grid grid-cols-1 items-baseline gap-1.5 border-b border-[#f4f0e6] py-3.5 sm:grid-cols-[150px_1fr_110px] sm:gap-4">
+                    <code class="w-fit rounded-md bg-[#faf6ec] px-2 py-0.5 font-mono text-[13.5px] text-[#8f6a22]">{c.nombre}</code>
+                    <span class="text-[15px] leading-snug text-[#41525a]">{c.fin}<span class="mt-0.5 block text-[13px] text-[#8b9599]">{c.prov}</span></span>
+                    <span class="text-sm font-semibold text-navy sm:text-right">{c.dura}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {sections2.map((s) => (
+          <div id={s.id} class="mb-10 scroll-mt-24">
+            <h2 class="mb-3.5 font-heading text-2xl font-bold leading-snug text-navy">{s.n}. {s.title}</h2>
+            <div class="flex flex-col gap-3 text-[16.5px] leading-relaxed text-[#41525a]">
+              {s.body.map((p) => <p>{p}</p>)}
+              {s.list && (
+                <ul class="flex flex-col gap-2 pl-5">
+                  {s.list.map(([strong, rest]) => <li class="list-disc"><strong class="text-[#17272f]">{strong}</strong> {rest}</li>)}
+                </ul>
+              )}
+              {s.after2 && s.after2.map((p) => <p>{p}</p>)}
+              {s.after && <p>{s.after}</p>}
+            </div>
+          </div>
+        ))}
+
+        <div class="rounded-2xl border border-[#e5c988] border-l-[5px] border-l-gold bg-[#fff6e2] px-7.5 py-7">
+          <h2 class="mb-3 font-heading text-xl font-bold text-navy">Cambia tu decisión cuando quieras</h2>
+          <p class="mb-4.5 leading-relaxed text-[#5c5340]">Puedes revocar o ampliar tu consentimiento en cualquier momento, sin dar explicaciones y sin que eso afecte tu acceso al sitio ni la atención de tu caso.</p>
+          <button type="button" data-cookie-settings="true" class="inline-flex items-center gap-2.5 rounded-lg bg-navy px-6 py-3.5 font-bold text-cream-light">
+            <Icon path='<path d="M12.2 3h-.4a2 2 0 0 0-2 2 1.7 1.7 0 0 1-2.5 1.5 2 2 0 0 0-2.7.7l-.2.4a2 2 0 0 0 .7 2.7A1.7 1.7 0 0 1 5 12a1.7 1.7 0 0 1-.9 1.7 2 2 0 0 0-.7 2.7l.2.4a2 2 0 0 0 2.7.7A1.7 1.7 0 0 1 9.8 19a2 2 0 0 0 2 2h.4a2 2 0 0 0 2-2 1.7 1.7 0 0 1 2.5-1.5 2 2 0 0 0 2.7-.7l.2-.4a2 2 0 0 0-.7-2.7A1.7 1.7 0 0 1 19 12a1.7 1.7 0 0 1 .9-1.7 2 2 0 0 0 .7-2.7l-.2-.4a2 2 0 0 0-2.7-.7A1.7 1.7 0 0 1 14.2 5a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>' class="h-[19px] w-[19px]" />
+            Abrir mis preferencias de cookies
+          </button>
+        </div>
+      </div>
+
+      <aside class="h-fit rounded-2xl border border-[#e8e2d5] bg-cream-light px-6 py-6.5 md:sticky md:top-24">
+        <div class="mb-4 text-xs font-bold tracking-widest text-gold-dark">CONTENIDO</div>
+        <div class="flex flex-col gap-0.5">
+          {toc.map((t) => (
+            <a href={`#${t.id}`} class="flex items-baseline gap-2.5 border-b border-[#f0ebe0] py-2 text-sm leading-snug text-[#41525a] hover:text-gold-dark">
+              <span class="font-bold text-gold">{t.n}</span>
+              <span>{t.title}</span>
+            </a>
+          ))}
+        </div>
+        <a href="/privacidad" class="mt-5 flex items-center gap-2 text-sm font-bold text-gold-dark">
+          Política de privacidad
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      </aside>
+    </div>
+  </section>
+</Layout>
