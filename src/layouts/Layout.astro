@@ -3,6 +3,21 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import '../styles/global.css';
+import { contact } from '../data/services';
+
+// Self-hosted fonts (replaces the fonts.googleapis.com / fonts.gstatic.com
+// round-trip) — same families/weights DESIGN.md documents, just served from
+// this origin so there's no external stylesheet + font-file chain blocking
+// the display/body/brand faces.
+import '@fontsource/playfair-display/500.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/playfair-display/800.css';
+import '@fontsource/source-sans-3/400.css';
+import '@fontsource/source-sans-3/500.css';
+import '@fontsource/source-sans-3/600.css';
+import '@fontsource/source-sans-3/700.css';
+import '@fontsource/montserrat/700.css';
 
 interface Props {
   title: string;
@@ -10,6 +25,8 @@ interface Props {
   noindex?: boolean;
   /** padding-top compensating the fixed header; most pages want this. */
   padTop?: boolean;
+  /** Breadcrumb trail for this page, root-relative ("Inicio" first). Renders BreadcrumbList JSON-LD when provided. */
+  breadcrumbs?: { name: string; url: string }[];
 }
 
 const {
@@ -17,10 +34,62 @@ const {
   description = 'Estudio jurídico especializado en Derecho Laboral. Defendemos a trabajadores despedidos injustificadamente en todo Chile.',
   noindex = false,
   padTop = true,
+  breadcrumbs,
 } = Astro.props;
 
 const fullTitle = title.includes('Defendemos Tu Despido') ? title : `${title} | Defendemos Tu Despido`;
+const siteOrigin = (Astro.site ?? new URL(Astro.url.origin)).toString().replace(/\/$/, '');
 const ogImage = new URL('/uploads/og-image.png', Astro.site ?? Astro.url.origin).toString();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+
+const orgId = `${siteOrigin}/#organization`;
+const websiteId = `${siteOrigin}/#website`;
+
+// NOTE: legalName/taxID (razón social, RUT) are intentionally omitted — the
+// real values haven't been provided yet (see PRODUCT.md's known-gap note).
+// Add them here once available instead of asserting placeholder data.
+const organizationSchema = {
+  '@type': 'LegalService',
+  '@id': orgId,
+  name: 'Defendemos Tu Despido',
+  url: `${siteOrigin}/`,
+  logo: `${siteOrigin}/uploads/logo-shield-navbar.png`,
+  image: ogImage,
+  description:
+    'Estudio jurídico especializado en Derecho Laboral en todo Chile. Evaluación gratuita de despidos injustificados, tutela laboral, finiquitos y más.',
+  areaServed: { '@type': 'Country', name: 'Chile' },
+  telephone: '+56912345678',
+  email: contact.email,
+  sameAs: [contact.instagramUrl],
+};
+
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: `${siteOrigin}/`,
+  name: 'Defendemos Tu Despido',
+  inLanguage: 'es-CL',
+  publisher: { '@id': orgId },
+};
+
+const breadcrumbSchema =
+  breadcrumbs && breadcrumbs.length > 0
+    ? {
+        '@type': 'BreadcrumbList',
+        '@id': `${siteOrigin}${Astro.url.pathname}#breadcrumb`,
+        itemListElement: breadcrumbs.map((b, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: b.name,
+          item: `${siteOrigin}${b.url}`,
+        })),
+      }
+    : null;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [organizationSchema, websiteSchema, ...(breadcrumbSchema ? [breadcrumbSchema] : [])],
+};
 ---
 
 <!doctype html>
@@ -31,28 +100,29 @@ const ogImage = new URL('/uploads/og-image.png', Astro.site ?? Astro.url.origin)
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonicalURL} />
 
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="es_CL" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=Montserrat:wght@700&display=swap"
-      rel="stylesheet"
-    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
 
     <!-- Cookie consent banner: gates GTM (and, inside it, GA4 + Meta Pixel) behind
          explicit visitor consent via Google Consent Mode v2. See public/consent-banner.js. -->
     <script src="/consent-banner.js" is:inline></script>
+
+    <slot name="head" />
   </head>
   <body class="overflow-x-clip bg-cream">
     <div class:list={[padTop && 'pt-[78px]']}>
       <Header transparentAtTop={false} />
-      <slot />
+      <main>
+        <slot />
+      </main>
       <Footer />
     </div>
     <WhatsAppButton />

@@ -13,12 +13,46 @@ const service = services.find((s) => s.slug === slug)!;
 const detail = serviceDetails[slug as string];
 const otherServices = services.filter((s) => s.slug !== slug);
 
+const siteOrigin = (Astro.site ?? new URL(Astro.url.origin)).toString().replace(/\/$/, '');
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  description: service.desc,
+  serviceType: service.navLabel,
+  areaServed: { '@type': 'Country', name: 'Chile' },
+  provider: { '@id': `${siteOrigin}/#organization` },
+  url: `${siteOrigin}/servicio/${service.slug}`,
+};
+const faqSchema =
+  detail.faqs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: detail.faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }
+    : null;
+
 const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.03c-.24.68-1.42 1.31-1.95 1.35-.5.05-1.13.24-3.66-.77-3.08-1.24-5.06-4.4-5.21-4.6-.15-.2-1.25-1.66-1.25-3.17 0-1.51.79-2.25 1.07-2.56.28-.31.61-.38.81-.38.2 0 .41 0 .58.01.19.01.44-.07.68.52.24.6.83 2.06.9 2.21.07.15.12.32.02.52-.1.2-.15.32-.29.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.6.17.29.75 1.24 1.61 2 1.11.99 2.05 1.29 2.34 1.44.29.15.46.12.63-.07.17-.2.72-.84.91-1.13.19-.29.39-.24.65-.15.27.1 1.71.81 2 .96.29.15.48.22.55.34.07.12.07.7-.17 1.38z"/>';
 const CLOCK_ICON = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
 const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
 ---
 
-<Layout title={service.title} description={service.desc}>
+<Layout
+  title={service.title}
+  description={service.desc}
+  breadcrumbs={[
+    { name: 'Inicio', url: '/' },
+    { name: 'Servicios', url: '/servicios' },
+    { name: service.navLabel, url: `/servicio/${service.slug}` },
+  ]}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} is:inline />
+  {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />}
   <section class="border-b border-gold/18 bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
     <div class="mx-auto max-w-6xl px-6 py-13 pb-16 md:px-8">
       <div class="mb-6 flex flex-wrap items-center gap-2.5 text-sm text-[#8fa0a7]">
@@ -41,7 +75,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
   </section>
 
   <div class="mx-auto grid max-w-6xl grid-cols-1 gap-9 px-6 py-20 md:grid-cols-[1fr_320px] md:gap-14 md:px-8">
-    <main>
+    <div>
       <div class="mb-3 text-[13px] font-bold tracking-widest text-gold-dark">DE QUÉ SE TRATA</div>
       <h2 class="mb-5 font-heading text-3xl font-bold text-navy md:text-4xl">{detail.aboutHeading}</h2>
       {detail.about.map((p) => <p class="mb-4 text-[17px] leading-relaxed text-[#41525a]">{p}</p>)}
@@ -110,7 +144,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
           ))}
         </div>
       </div>
-    </main>
+    </div>
 
     <aside class="flex flex-col gap-5.5 md:sticky md:top-24 md:self-start">
       <div class="rounded-2xl border border-gold/25 bg-navy p-7">

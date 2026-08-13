@@ -47,7 +47,14 @@ const sections = [
 ];
 ---
 
-<Layout title="Términos de uso" description="Condiciones de uso del sitio: alcance de la información publicada, límites de la calculadora de finiquito y ausencia de relación abogado-cliente.">
+<Layout
+  title="Términos de uso"
+  description="Condiciones de uso del sitio: alcance de la información publicada, límites de la calculadora de finiquito y ausencia de relación abogado-cliente."
+  breadcrumbs={[
+    { name: 'Inicio', url: '/' },
+    { name: 'Términos de uso', url: '/terminos' },
+  ]}
+>
   <section class="bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
     <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
       <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">

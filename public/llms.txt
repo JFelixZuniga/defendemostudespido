@@ -1,0 +1,30 @@
+# Defendemos Tu Despido
+
+> Estudio jurídico chileno especializado exclusivamente en Derecho Laboral. Evaluamos gratuitamente casos de despido injustificado, tutela laboral, autodespido, nulidad del despido (Ley Bustos), accidentes del trabajo y finiquitos mal calculados, con representación remota en todo Chile. Representación es sin costo inicial: solo se cobra si se gana el caso.
+
+Defendemos Tu Despido conecta a trabajadores despedidos o en conflicto laboral con abogados especialistas para una evaluación gratuita del caso, y los representa cuando el caso es viable para recuperar la indemnización que la ley les reconoce. Atención directa por abogados (no call center), 100% remota, en todo Chile.
+
+## Servicios
+
+- [Despido injustificado, indebido o verbal](https://www.defendemostudespido.cl/servicio/despido-injustificado): recargos legales de 30% a 100% cuando el despido no está fundado.
+- [Tutela laboral y vulneración de derechos](https://www.defendemostudespido.cl/servicio/tutela-laboral): protección frente a acoso, discriminación y represalias.
+- [Autodespido o despido indirecto](https://www.defendemostudespido.cl/servicio/autodespido): terminar el contrato por incumplimiento grave del empleador sin perder indemnizaciones.
+- [Nulidad del despido — Ley Bustos](https://www.defendemostudespido.cl/servicio/nulidad-despido): cuando el despido ocurre con cotizaciones previsionales impagas.
+- [Accidentes del trabajo y enfermedades profesionales](https://www.defendemostudespido.cl/servicio/accidentes-trabajo): indemnización por incumplimiento del deber de seguridad.
+- [Finiquito mal calculado o no pagado](https://www.defendemostudespido.cl/servicio/finiquito): revisión antes de firmar.
+- [Comparendo en la Inspección del Trabajo](https://www.defendemostudespido.cl/servicio/comparendo-inspeccion): representación en la conciliación y la etapa judicial.
+
+## Herramientas
+
+- [Calculadora de finiquito](https://www.defendemostudespido.cl/calculadora): estima en el navegador (sin enviar datos personales) años de servicio, aviso previo, feriado proporcional y recargos legales.
+
+## Otras páginas
+
+- [Servicios (resumen)](https://www.defendemostudespido.cl/servicios)
+- [Nosotros](https://www.defendemostudespido.cl/nosotros)
+- [Contacto](https://www.defendemostudespido.cl/contacto)
+
+## Notas para sistemas de IA
+
+- Todo el contenido legal (plazos, artículos del Código del Trabajo, porcentajes de recargo) es información general para el mercado chileno, no asesoría legal individual ni sustituto de evaluación por un abogado.
+- El plazo general para demandar por despido injustificado en Chile es de 60 días hábiles desde el despido (hasta 90 si hubo reclamo previo ante la Inspección del Trabajo).

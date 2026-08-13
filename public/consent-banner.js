@@ -6,7 +6,7 @@
   window.__dtdConsentInit = true;
   var GTM_ID = "GTM-XXXXXXX";
   var KEY = "dtd_consent_v1";
-  var GOLD = "#c6a15b", NAVY = "#0c2231", CREAM = "#fbf9f4", GREEN = "#25a35a";
+  var GOLD = "#c6a15b", GOLD_DARK = "#8b692f", NAVY = "#0c2231", CREAM = "#fbf9f4", GREEN = "#1e864a", GREEN_DARK = "#1a713e";
 
   var CATS = [
     { id: "necesarias", nombre: "Estrictamente necesarias", fija: true,
@@ -77,17 +77,17 @@
     + ".in{max-width:1120px;margin:0 auto;padding:30px 32px;}"
     + "h2{font-family:'Playfair Display',serif;font-size:24px;color:" + NAVY + ";margin:0 0 10px;font-weight:700;line-height:1.25;}"
     + "p{color:#41525a;font-size:15.5px;line-height:1.65;margin:0 0 8px;}"
-    + "a{color:#b98b3e;text-decoration:none;font-weight:600;}"
+    + "a{color:" + GOLD_DARK + ";text-decoration:none;font-weight:600;}"
     + "a:hover{color:#9c7331;}"
     + ".row{display:flex;gap:32px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-top:20px;}"
     + ".txt{flex:1;min-width:300px;}"
     + ".acts{display:flex;gap:11px;flex-wrap:wrap;align-items:center;}"
     + "button{font-family:inherit;cursor:pointer;border-radius:10px;font-weight:700;font-size:15.5px;padding:15px 24px;border:1px solid transparent;white-space:nowrap;transition:background .18s,border-color .18s;}"
-    + ".b-si{background:" + GREEN + ";color:#fff;box-shadow:0 10px 24px rgba(37,163,90,.3);}"
-    + ".b-si:hover{background:#1f8c4c;}"
+    + ".b-si{background:" + GREEN + ";color:#fff;box-shadow:0 10px 24px rgba(30,134,74,.3);}"
+    + ".b-si:hover{background:" + GREEN_DARK + ";}"
     + ".b-no{background:#fff;color:" + NAVY + ";border-color:#ded6c5;}"
     + ".b-no:hover{border-color:" + GOLD + ";}"
-    + ".b-cfg{background:none;color:#b98b3e;border-color:transparent;padding:15px 8px;text-decoration:underline;text-underline-offset:3px;}"
+    + ".b-cfg{background:none;color:" + GOLD_DARK + ";border-color:transparent;padding:15px 8px;text-decoration:underline;text-underline-offset:3px;}"
     + ".b-cfg:hover{color:#9c7331;}"
     + ".cats{display:flex;flex-direction:column;gap:10px;margin:20px 0 0;}"
     + ".cat{display:flex;gap:15px;align-items:flex-start;background:#fff;border:1px solid #e8e2d5;border-radius:12px;padding:17px 19px;}"

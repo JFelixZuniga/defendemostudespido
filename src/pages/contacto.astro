@@ -27,7 +27,14 @@ const successNext = [
 ];
 ---
 
-<Layout title="Contacto" description="Cuéntanos tu caso laboral. Un abogado especialista te responde sin costo. Confidencialidad garantizada.">
+<Layout
+  title="Contacto"
+  description="Cuéntanos tu caso laboral. Un abogado especialista te responde sin costo. Confidencialidad garantizada."
+  breadcrumbs={[
+    { name: 'Inicio', url: '/' },
+    { name: 'Contacto', url: '/contacto' },
+  ]}
+>
   <section class="border-b border-gold/18 bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
     <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
       <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">

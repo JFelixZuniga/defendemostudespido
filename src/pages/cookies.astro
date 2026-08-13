@@ -56,17 +56,17 @@ const grupos = [
   { nombre: 'Estrictamente necesarias', estado: 'Siempre activas', dot: '#3f8a58', headBg: '#f2f7f3', cookies: [
     { nombre: 'dtd_consent_v1', fin: 'Guarda tu decisión sobre cada categoría de cookies.', prov: 'Propia · almacenamiento local', dura: '12 meses' },
   ]},
-  { nombre: 'Analíticas', estado: 'Requieren consentimiento', dot: '#b98b3e', headBg: '#faf6ec', cookies: [
+  { nombre: 'Analíticas', estado: 'Requieren consentimiento', dot: '#8b692f', headBg: '#faf6ec', cookies: [
     { nombre: '_ga', fin: 'Distingue visitantes de forma seudonimizada.', prov: 'Google Analytics 4', dura: '2 años' },
     { nombre: '_ga_<ID>', fin: 'Mantiene el estado de la sesión de análisis.', prov: 'Google Analytics 4', dura: '2 años' },
     { nombre: '_gid', fin: 'Distingue visitantes dentro de un mismo día.', prov: 'Google Analytics 4', dura: '24 horas' },
   ]},
-  { nombre: 'Publicidad', estado: 'Requieren consentimiento', dot: '#b98b3e', headBg: '#faf6ec', cookies: [
+  { nombre: 'Publicidad', estado: 'Requieren consentimiento', dot: '#8b692f', headBg: '#faf6ec', cookies: [
     { nombre: '_gcl_au', fin: 'Mide conversiones de campañas publicitarias.', prov: 'Google Ads', dura: '3 meses' },
     { nombre: 'IDE / test_cookie', fin: 'Permite mostrar anuncios nuestros en otros sitios.', prov: 'Google (doubleclick.net)', dura: '13 meses' },
     { nombre: '_fbp', fin: 'Identifica navegadores para medir campañas en redes.', prov: 'Meta Pixel', dura: '3 meses' },
   ]},
-  { nombre: 'Comportamiento', estado: 'Requieren consentimiento', dot: '#b98b3e', headBg: '#faf6ec', cookies: [
+  { nombre: 'Comportamiento', estado: 'Requieren consentimiento', dot: '#8b692f', headBg: '#faf6ec', cookies: [
     { nombre: '_hjSessionUser', fin: 'Identifica la sesión para el mapa de calor.', prov: 'Hotjar', dura: '12 meses' },
     { nombre: '_hjSession', fin: 'Agrupa las interacciones de una misma visita.', prov: 'Hotjar', dura: '30 minutos' },
     { nombre: '_clck / _clsk', fin: 'Registra clics y desplazamiento de forma anónima.', prov: 'Microsoft Clarity', dura: '12 meses / 1 día' },
@@ -76,7 +76,14 @@ const grupos = [
 const toc = [...sections, { n: '5', id: 'tabla', title: 'Detalle de cada cookie' }, ...sections2];
 ---
 
-<Layout title="Política de cookies" description="Qué cookies usa el sitio, para qué sirven, cuánto duran y cómo revocar tu consentimiento en cualquier momento.">
+<Layout
+  title="Política de cookies"
+  description="Qué cookies usa el sitio, para qué sirven, cuánto duran y cómo revocar tu consentimiento en cualquier momento."
+  breadcrumbs={[
+    { name: 'Inicio', url: '/' },
+    { name: 'Política de cookies', url: '/cookies' },
+  ]}
+>
   <section class="bg-gradient-to-tr from-navy-dark via-navy to-[#0d2e1e]">
     <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
       <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">

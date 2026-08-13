@@ -9,10 +9,13 @@
   --color-navy-text: #10254a;
   --color-gold: #c6a15b;
   --color-gold-light: #dcbd7f;
-  --color-gold-dark: #b98b3e;
+  /* gold-dark and green are darkened from their original #b98b3e / #25a35a
+     values to clear WCAG AA text contrast (4.5:1) against white/cream —
+     same hue and saturation, just deeper. See FULL-AUDIT-REPORT.md. */
+  --color-gold-dark: #8b692f;
   --color-gold-darker: #9c7331;
-  --color-green: #25a35a;
-  --color-green-dark: #1f8c4c;
+  --color-green: #1e864a;
+  --color-green-dark: #1a713e;
   --color-ink: #17272f;
 
   --font-heading: "Playfair Display", Georgia, serif;
@@ -53,9 +56,9 @@
   to { opacity: 1; }
 }
 @keyframes waPulse {
-  0% { box-shadow: 0 12px 30px rgba(37,163,90,0.5), 0 0 0 0 rgba(37,163,90,0.45); }
-  70% { box-shadow: 0 12px 30px rgba(37,163,90,0.5), 0 0 0 18px rgba(37,163,90,0); }
-  100% { box-shadow: 0 12px 30px rgba(37,163,90,0.5), 0 0 0 0 rgba(37,163,90,0); }
+  0% { box-shadow: 0 12px 30px rgba(30,134,74,0.5), 0 0 0 0 rgba(30,134,74,0.45); }
+  70% { box-shadow: 0 12px 30px rgba(30,134,74,0.5), 0 0 0 18px rgba(30,134,74,0); }
+  100% { box-shadow: 0 12px 30px rgba(30,134,74,0.5), 0 0 0 0 rgba(30,134,74,0); }
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
@@ -96,7 +99,7 @@
 @media (prefers-reduced-motion: reduce) {
   .animate-wa-pulse {
     animation: none;
-    box-shadow: 0 12px 30px rgba(37, 163, 90, 0.5), 0 0 0 6px rgba(37, 163, 90, 0.18);
+    box-shadow: 0 12px 30px rgba(30, 134, 74, 0.5), 0 0 0 6px rgba(30, 134, 74, 0.18);
   }
   .animate-float {
     animation: none;
