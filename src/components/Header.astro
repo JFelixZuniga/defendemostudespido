@@ -2,10 +2,6 @@
 import Icon from './Icon.astro';
 import { services, waLink } from '../data/services';
 
-interface Props {
-  transparentAtTop?: boolean;
-}
-const { transparentAtTop = false } = Astro.props;
 const path = Astro.url.pathname;
 const isActive = (p: string) => (p === '/' ? path === '/' : path.startsWith(p));
 
@@ -17,12 +13,11 @@ const WA_PATH =
 
 <header
   id="site-header"
-  class="fixed inset-x-0 top-0 z-50 w-full animate-nav-drop border-b border-navy-text/10 bg-cream-light/97 shadow-[0_2px_12px_rgba(8,23,34,0.06)] backdrop-blur-md"
-  data-transparent={transparentAtTop ? 'true' : 'false'}
+  class="fixed inset-x-0 top-0 z-50 w-full animate-nav-drop border-b border-navy-text/10 bg-cream-light/90 shadow-[0_2px_12px_rgba(8,23,34,0.06)] backdrop-blur-lg transition-shadow duration-300 ease-out"
 >
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4 md:px-8">
+  <div id="site-header-inner" class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4 transition-[padding] duration-300 ease-out md:px-8">
     <a href="/" class="flex flex-shrink-0 items-center gap-1">
-      <img src="/uploads/logo-shield-navbar.png" alt="DefendemosTuDespido" class="h-12 w-auto" />
+      <img id="site-header-logo" src="/uploads/logo-shield-navbar.png" alt="DefendemosTuDespido" class="h-12 w-auto transition-[height] duration-300 ease-out" />
       <span class="whitespace-nowrap font-brand text-sm font-bold sm:text-xl">
         <span class="text-navy-text">Defendemos</span><span class="text-gold-dark">Tu</span><span class="text-navy-text">Despido</span>
       </span>
@@ -129,18 +124,34 @@ const WA_PATH =
     svcWrapper?.setAttribute('data-open', open ? 'false' : 'true');
   });
 
-  // Sticky header shrink/shadow on scroll (mirrors the source's animated header).
+  // Header shadow deepens on any scroll (instant feedback that the page has moved).
   const header = document.getElementById('site-header');
-  if (header?.dataset.transparent === 'true') {
-    const onScroll = () => {
-      if (window.scrollY > 40) {
-        header.classList.add('shadow-[0_10px_30px_rgba(8,23,34,0.14)]');
-        header.classList.remove('shadow-[0_2px_12px_rgba(8,23,34,0.06)]');
-      } else {
-        header.classList.remove('shadow-[0_10px_30px_rgba(8,23,34,0.14)]');
-        header.classList.add('shadow-[0_2px_12px_rgba(8,23,34,0.06)]');
-      }
-    };
-    document.addEventListener('scroll', onScroll, { passive: true });
+  const headerInner = document.getElementById('site-header-inner');
+  const headerLogo = document.getElementById('site-header-logo');
+
+  function onScroll() {
+    const scrolled = window.scrollY > 8;
+    header?.classList.toggle('shadow-[0_2px_12px_rgba(8,23,34,0.06)]', !scrolled);
+    header?.classList.toggle('shadow-[0_10px_30px_rgba(8,23,34,0.14)]', scrolled);
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Header compacts once the visitor has fully scrolled past the hero
+  // (id="inicio", homepage only) — expands again on scrolling back into it.
+  // No-op on pages without a hero, so the header just stays full-size there.
+  const hero = document.getElementById('inicio');
+  if (hero && headerInner && headerLogo) {
+    function setCompact(compact: boolean) {
+      headerInner!.classList.toggle('py-4', !compact);
+      headerInner!.classList.toggle('py-2.5', compact);
+      headerLogo!.classList.toggle('h-12', !compact);
+      headerLogo!.classList.toggle('h-9', compact);
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => setCompact(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { threshold: 0 }
+    );
+    io.observe(hero);
   }
 </script>
