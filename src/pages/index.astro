@@ -110,7 +110,7 @@ const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.
           DERECHO LABORAL · TODO CHILE
         </div>
         <h1 class="mb-6 font-heading text-4xl font-bold leading-[1.05] text-[#f6f2e8] md:text-6xl">
-          ¿Te despidieron<br />injustamente?
+          ¿Te despidieron <br />injustamente?
           <span class="block italic text-[#6bbd87]">Háblanos.</span>
         </h1>
         <p class="mb-3 max-w-lg text-lg leading-snug text-[#d7ddda] md:text-xl">
@@ -248,10 +248,12 @@ const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.
     <div class="flex flex-col gap-3.5">
       {faqs.map((f) => (
         <div data-faq-item data-open="false" class="overflow-hidden rounded-xl border border-[#e8e2d5] bg-white">
-          <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-heading text-lg font-semibold text-navy">
-            <span>{f.q}</span>
-            <span class="faq-chevron flex-shrink-0 text-2xl text-gold transition-transform">+</span>
-          </button>
+          <h3 class="font-heading text-lg font-semibold text-navy">
+            <button type="button" data-faq-toggle class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
+              <span>{f.q}</span>
+              <span class="faq-chevron flex-shrink-0 text-2xl text-gold transition-transform">+</span>
+            </button>
+          </h3>
           <div class="faq-row">
             <div>
               <p class="whitespace-pre-line px-6 pb-6 text-base leading-relaxed text-[#5a6a70]">{f.a}</p>
@@ -270,7 +272,7 @@ const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.
           <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#e3dac6] bg-[#f4efe3] text-gold-dark">
             <Icon path={d.icon} class="h-5 w-5" />
           </div>
-          <h3 class="mb-2 font-heading text-xl font-bold text-navy">{d.title}</h3>
+          <p class="mb-2 font-heading text-xl font-bold text-navy">{d.title}</p>
           <p class="mb-4.5 text-sm leading-relaxed text-[#5a6a70]">{d.desc}</p>
           <span class="mt-auto inline-flex items-center gap-2 text-sm font-bold text-gold-dark">
             {d.cta}
