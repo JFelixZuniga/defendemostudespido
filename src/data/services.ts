@@ -115,7 +115,7 @@ export function waLinkWithText(text: string): string {
 }
 
 export const contact = {
-  whatsappDisplay: '+56 9 1234 5678',
+  whatsappDisplay: '+56 9 7619 0738',
   email: 'defendemostudespido@gmail.com',
   legalEmail: 'contacto@abogadoslaborales.cl',
   instagram: '@defendemostudespido',
