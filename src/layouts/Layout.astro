@@ -9,7 +9,6 @@ import { contact } from '../data/services';
 // round-trip) — same families/weights DESIGN.md documents, just served from
 // this origin so there's no external stylesheet + font-file chain blocking
 // the display/body/brand faces.
-import '@fontsource/playfair-display/500.css';
 import '@fontsource/playfair-display/600.css';
 import '@fontsource/playfair-display/700.css';
 import '@fontsource/playfair-display/800.css';
@@ -18,6 +17,11 @@ import '@fontsource/source-sans-3/500.css';
 import '@fontsource/source-sans-3/600.css';
 import '@fontsource/source-sans-3/700.css';
 import '@fontsource/montserrat/700.css';
+
+// Montserrat 700 renders the nav wordmark, which is above the fold on every
+// page — preload it so the browser doesn't wait to discover it via the
+// render-blocking stylesheet (same reasoning as the hero font on index.astro).
+import brandFontUrl from '@fontsource/montserrat/files/montserrat-latin-700-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -102,6 +106,7 @@ const jsonLd = {
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/webp" href="/uploads/logo-shield-navbar.webp" />
+    <link rel="preload" as="font" type="font/woff2" href={brandFontUrl} crossorigin />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
