@@ -7,6 +7,7 @@ import sitemap from '@astrojs/sitemap';
 // src/pages/api/contact.ts opt into SSR via `export const prerender = false`.
 export default defineConfig({
   site: 'https://www.defendemostudespido.cl',
+  trailingSlash: 'always',
   adapter: vercel(),
   integrations: [sitemap()],
   vite: {

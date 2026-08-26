@@ -15,7 +15,7 @@ import { services, waLink, contact } from '../data/services';
         <div class="mb-4 text-[13px] font-bold tracking-widest text-gold-light">SERVICIOS</div>
         <div class="flex flex-col gap-2.5">
           {services.map((s) => (
-            <a href={`/servicio/${s.slug}`} class="text-[14.5px] leading-tight text-[#a9b6b8] hover:text-cream-light">{s.navLabel}</a>
+            <a href={`/servicio/${s.slug}/`} class="text-[14.5px] leading-tight text-[#a9b6b8] hover:text-cream-light">{s.navLabel}</a>
           ))}
         </div>
       </div>
@@ -32,9 +32,9 @@ import { services, waLink, contact } from '../data/services';
     <div class="flex flex-col flex-wrap justify-between gap-3.5 pt-6 text-[13px] text-[#71848b] md:flex-row md:items-center">
       <div>© 2026 Defendemos Tu Despido. Todos los derechos reservados.</div>
       <div class="flex flex-wrap gap-5">
-        <a href="/privacidad" class="text-[#8fa0a7] hover:text-gold-light">Política de privacidad</a>
-        <a href="/cookies" class="text-[#8fa0a7] hover:text-gold-light">Política de cookies</a>
-        <a href="/terminos" class="text-[#8fa0a7] hover:text-gold-light">Términos de uso</a>
+        <a href="/privacidad/" class="text-[#8fa0a7] hover:text-gold-light">Política de privacidad</a>
+        <a href="/cookies/" class="text-[#8fa0a7] hover:text-gold-light">Política de cookies</a>
+        <a href="/terminos/" class="text-[#8fa0a7] hover:text-gold-light">Términos de uso</a>
         <button type="button" data-cookie-settings="true" class="text-[#8fa0a7] hover:text-gold-light">Preferencias de cookies</button>
       </div>
     </div>

@@ -17,7 +17,7 @@ const WA_PATH =
 >
   <div id="site-header-inner" class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4 transition-[padding] duration-300 ease-out md:px-8">
     <a href="/" class="flex flex-shrink-0 items-center gap-1">
-      <img id="site-header-logo" src="/uploads/logo-shield-navbar.png" alt="DefendemosTuDespido" class="h-12 w-auto transition-[height] duration-300 ease-out" />
+      <img id="site-header-logo" src="/uploads/logo-shield-navbar.webp" alt="DefendemosTuDespido" class="h-12 w-auto transition-[height] duration-300 ease-out" />
       <span class="whitespace-nowrap font-brand text-sm font-bold sm:text-xl">
         <span class="text-navy-text">Defendemos</span><span class="text-gold-dark">Tu</span><span class="text-navy-text">Despido</span>
       </span>
@@ -25,24 +25,24 @@ const WA_PATH =
 
     <nav class="hidden items-center gap-8 lg:flex">
       <a href="/" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/') && path === '/' ? 'text-gold-dark' : 'text-navy-text']}>Inicio</a>
-      <a href="/nosotros" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/nosotros') ? 'text-gold-dark' : 'text-navy-text']}>Nosotros</a>
+      <a href="/nosotros/" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/nosotros') ? 'text-gold-dark' : 'text-navy-text']}>Nosotros</a>
 
       <div class="group relative">
-        <a href="/servicios" class:list={["inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/servicios') || isActive('/servicio') ? 'text-gold-dark' : 'text-navy-text']}>
+        <a href="/servicios/" class:list={["inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/servicios') || isActive('/servicio') ? 'text-gold-dark' : 'text-navy-text']}>
           Servicios <span class="text-[10px] text-gold">▼</span>
         </a>
         <div class="invisible absolute left-1/2 top-full w-[340px] -translate-x-1/2 pt-3.5 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100">
           <div class="rounded-xl border border-gold/25 bg-navy p-2.5 shadow-[0_24px_50px_rgba(8,23,34,0.5)]">
-            <a href="/servicios" class="mb-1 block rounded-lg border-b border-white/10 px-3.5 py-2.5 text-sm font-bold text-gold-light hover:bg-gold/10 hover:text-cream-light">Ver todos los servicios</a>
+            <a href="/servicios/" class="mb-1 block rounded-lg border-b border-white/10 px-3.5 py-2.5 text-sm font-bold text-gold-light hover:bg-gold/10 hover:text-cream-light">Ver todos los servicios</a>
             {services.map((s) => (
-              <a href={`/servicio/${s.slug}`} class="block rounded-lg px-3.5 py-2.5 text-sm leading-tight text-[#d7ddda] hover:bg-gold/10 hover:text-cream-light">{s.navLabel}</a>
+              <a href={`/servicio/${s.slug}/`} class="block rounded-lg px-3.5 py-2.5 text-sm leading-tight text-[#d7ddda] hover:bg-gold/10 hover:text-cream-light">{s.navLabel}</a>
             ))}
           </div>
         </div>
       </div>
 
-      <a href="/contacto" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/contacto') ? 'text-gold-dark' : 'text-navy-text']}>Contacto</a>
-      <a href="/calculadora" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/calculadora') ? 'text-gold-dark' : 'text-navy-text']}>Calcular Finiquito</a>
+      <a href="/contacto/" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/contacto') ? 'text-gold-dark' : 'text-navy-text']}>Contacto</a>
+      <a href="/calculadora/" class:list={["text-sm font-semibold uppercase tracking-wider hover:text-gold", isActive('/calculadora') ? 'text-gold-dark' : 'text-navy-text']}>Calcular Finiquito</a>
     </nav>
 
     <button id="drawer-open" aria-label="Abrir menú" class="flex h-11 w-11 items-center justify-center rounded-[11px] border border-navy-text/15 bg-white lg:hidden">
@@ -61,7 +61,7 @@ const WA_PATH =
 <div id="drawer-panel" class="fixed inset-y-0 right-0 z-[60] flex w-[min(88vw,380px)] -translate-x-0 translate-x-full flex-col bg-cream-light shadow-[-18px_0_50px_rgba(8,23,34,0.35)] transition-transform duration-300">
   <div class="flex items-center justify-between gap-4 border-b border-navy-text/10 px-5 py-4">
   <div class="flex flex-shrink-0 items-center gap-1">
-    <img src="/uploads/logo-shield-navbar.png" alt="DefendemosTuDespido" class="h-12 w-auto" />
+    <img src="/uploads/logo-shield-navbar.webp" alt="DefendemosTuDespido" class="h-12 w-auto" />
     <span class="whitespace-nowrap font-brand text-sm font-bold">
       <span class="text-navy-text">Defendemos</span><span class="text-gold-dark">Tu</span><span class="text-navy-text">Despido</span>
     </span>
@@ -72,7 +72,7 @@ const WA_PATH =
   </div>
   <div class="flex-1 overflow-y-auto px-5 pb-6 pt-2.5">
     <a href="/" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Inicio</a>
-    <a href="/nosotros" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Nosotros</a>
+    <a href="/nosotros/" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Nosotros</a>
     <div data-drawer-svc data-open="false" class="border-b border-[#efe9dc]">
       <button id="drawer-svc-toggle" class="flex min-h-[52px] w-full items-center justify-between bg-transparent text-left text-base font-semibold uppercase tracking-wide text-navy-text">
         Servicios
@@ -81,16 +81,16 @@ const WA_PATH =
       <div class="faq-row">
         <div>
           <div class="flex flex-col gap-0 py-1.5">
-            <a href="/servicios" class="flex min-h-[46px] items-center text-[15px] font-bold text-gold-dark">Ver todos los servicios</a>
+            <a href="/servicios/" class="flex min-h-[46px] items-center text-[15px] font-bold text-gold-dark">Ver todos los servicios</a>
             {services.map((s) => (
-              <a href={`/servicio/${s.slug}`} class="flex min-h-[46px] items-center text-[15px] leading-snug text-[#41525a]">{s.navLabel}</a>
+              <a href={`/servicio/${s.slug}/`} class="flex min-h-[46px] items-center text-[15px] leading-snug text-[#41525a]">{s.navLabel}</a>
             ))}
           </div>
         </div>
       </div>
     </div>
-    <a href="/contacto" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Contacto</a>
-    <a href="/calculadora" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Calcular Finiquito</a>
+    <a href="/contacto/" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Contacto</a>
+    <a href="/calculadora/" class="flex min-h-[52px] items-center border-b border-[#efe9dc] text-base font-semibold uppercase tracking-wide text-navy-text">Calcular Finiquito</a>
     <a href={waLink} target="_blank" rel="noopener noreferrer" class="mt-6 flex min-h-[56px] items-center justify-center gap-3 rounded-[11px] bg-green text-base font-bold text-white shadow-[0_10px_24px_rgba(37,163,90,0.3)]">
       <Icon path={WA_PATH} fill="currentColor" class="h-5 w-5" />
       Evaluación gratuita

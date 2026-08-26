@@ -22,7 +22,7 @@ const serviceSchema = {
   serviceType: service.navLabel,
   areaServed: { '@type': 'Country', name: 'Chile' },
   provider: { '@id': `${siteOrigin}/#organization` },
-  url: `${siteOrigin}/servicio/${service.slug}`,
+  url: `${siteOrigin}/servicio/${service.slug}/`,
 };
 const faqSchema =
   detail.faqs.length > 0
@@ -47,8 +47,8 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
   description={service.desc}
   breadcrumbs={[
     { name: 'Inicio', url: '/' },
-    { name: 'Servicios', url: '/servicios' },
-    { name: service.navLabel, url: `/servicio/${service.slug}` },
+    { name: 'Servicios', url: '/servicios/' },
+    { name: service.navLabel, url: `/servicio/${service.slug}/` },
   ]}
 >
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} is:inline />
@@ -58,7 +58,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
       <div class="mb-6 flex flex-wrap items-center gap-2.5 text-sm text-[#8fa0a7]">
         <a href="/" class="hover:text-gold-light">Inicio</a>
         <span>›</span>
-        <a href="/servicios" class="hover:text-gold-light">Servicios</a>
+        <a href="/servicios/" class="hover:text-gold-light">Servicios</a>
         <span>›</span>
         <span class="text-gold-light">{service.navLabel}</span>
       </div>
@@ -167,7 +167,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
         <div class="mb-3.5 font-heading text-sm font-bold text-navy">Otros servicios</div>
         <div class="flex flex-col gap-2.5">
           {otherServices.map((o) => (
-            <a href={`/servicio/${o.slug}`} class="text-[14.5px] leading-snug text-[#41525a] hover:text-gold-dark">{o.navLabel}</a>
+            <a href={`/servicio/${o.slug}/`} class="text-[14.5px] leading-snug text-[#41525a] hover:text-gold-dark">{o.navLabel}</a>
           ))}
         </div>
       </div>

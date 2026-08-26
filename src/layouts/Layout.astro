@@ -39,7 +39,7 @@ const {
 
 const fullTitle = title.includes('Defendemos Tu Despido') ? title : `${title} | Defendemos Tu Despido`;
 const siteOrigin = (Astro.site ?? new URL(Astro.url.origin)).toString().replace(/\/$/, '');
-const ogImage = new URL('/uploads/og-image.png', Astro.site ?? Astro.url.origin).toString();
+const ogImage = new URL('/uploads/og-image.webp', Astro.site ?? Astro.url.origin).toString();
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
 
 const orgId = `${siteOrigin}/#organization`;
@@ -53,7 +53,7 @@ const organizationSchema = {
   '@id': orgId,
   name: 'Defendemos Tu Despido',
   url: `${siteOrigin}/`,
-  logo: `${siteOrigin}/uploads/logo-shield-navbar.png`,
+  logo: `${siteOrigin}/uploads/logo-shield-navbar.webp`,
   image: ogImage,
   description:
     'Estudio jurídico especializado en Derecho Laboral en todo Chile. Evaluación gratuita de despidos injustificados, tutela laboral, finiquitos y más.',
@@ -101,7 +101,7 @@ const jsonLd = {
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonicalURL} />
-    <link rel="icon" type="image/png" href="/uploads/logo-shield-navbar.png" />
+    <link rel="icon" type="image/webp" href="/uploads/logo-shield-navbar.webp" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
@@ -114,7 +114,7 @@ const jsonLd = {
 
     <!-- Cookie consent banner: gates GTM (and, inside it, GA4 + Meta Pixel) behind
          explicit visitor consent via Google Consent Mode v2. See public/consent-banner.js. -->
-    <script src="/consent-banner.js" is:inline></script>
+    <script src="/consent-banner.js" defer is:inline></script>
 
     <slot name="head" />
   </head>
