@@ -108,10 +108,10 @@ export const services: Service[] = [
 ];
 
 export const waLink =
-  'https://wa.me/56912345678?text=Hola,%20quisiera%20una%20evaluaci%C3%B3n%20gratuita%20de%20mi%20caso%20laboral.';
+  'https://wa.me/56976190738?text=Hola,%20quisiera%20una%20evaluaci%C3%B3n%20gratuita%20de%20mi%20caso%20laboral.';
 
 export function waLinkWithText(text: string): string {
-  return `https://wa.me/56912345678?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/56976190738?text=${encodeURIComponent(text)}`;
 }
 
 export const contact = {
