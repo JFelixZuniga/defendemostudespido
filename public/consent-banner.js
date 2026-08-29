@@ -4,7 +4,7 @@
 (function () {
   if (window.__dtdConsentInit) return;
   window.__dtdConsentInit = true;
-  var GTM_ID = "GTM-XXXXXXX";
+  var GTM_ID = "GTM-5W25WN6Q";
   var KEY = "dtd_consent_v1";
   var GOLD = "#c6a15b", GOLD_DARK = "#8b692f", NAVY = "#0c2231", CREAM = "#fbf9f4", GREEN = "#1e864a", GREEN_DARK = "#1a713e";
 
