@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import { services, waLink } from '../../data/services';
 import { serviceDetails } from '../../data/serviceDetails';
+import { CONTENT_REVIEWED_ISO, CONTENT_REVIEWED_DISPLAY } from '../../data/meta';
 
 export function getStaticPaths() {
   return services.map((s) => ({ params: { slug: s.slug } }));
@@ -23,6 +24,14 @@ const serviceSchema = {
   areaServed: { '@type': 'Country', name: 'Chile' },
   provider: { '@id': `${siteOrigin}/#organization` },
   url: `${siteOrigin}/servicio/${service.slug}/`,
+  offers: {
+    '@type': 'Offer',
+    name: 'Evaluación gratuita de tu caso',
+    price: '0',
+    priceCurrency: 'CLP',
+    availability: 'https://schema.org/InStock',
+    url: `${siteOrigin}/servicio/${service.slug}/`,
+  },
 };
 const faqSchema =
   detail.faqs.length > 0
@@ -50,6 +59,8 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
     { name: 'Servicios', url: '/servicios/' },
     { name: service.navLabel, url: `/servicio/${service.slug}/` },
   ]}
+  datePublished={CONTENT_REVIEWED_ISO}
+  dateModified={CONTENT_REVIEWED_ISO}
 >
   <script type="application/ld+json" set:html={JSON.stringify(serviceSchema)} is:inline />
   {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />}
@@ -154,6 +165,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
         </div>
         <div class="mb-2.5 font-heading text-3xl font-bold leading-tight text-cream-light">{detail.deadline}</div>
         <p class="text-sm leading-relaxed text-[#adbbc0]">{detail.deadlineNote}</p>
+        <p class="mt-3.5 border-t border-white/10 pt-3 text-[12px] text-[#7f8f95]">Contenido revisado: {CONTENT_REVIEWED_DISPLAY}</p>
       </div>
       <div class="rounded-2xl bg-gradient-to-br from-[#0d2e1e] to-[#124026] p-7">
         <h3 class="mb-2.5 font-heading text-xl font-bold leading-tight text-cream-light">¿Tu caso encaja aquí?</h3>

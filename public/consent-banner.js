@@ -70,9 +70,11 @@
   var css = ""
     + ":host{all:initial;font-family:'Source Sans 3',system-ui,sans-serif;}"
     + "*{box-sizing:border-box;}"
-    + ".scrim{position:fixed;inset:0;z-index:2147483000;background:rgba(8,23,34,.55);opacity:0;visibility:hidden;transition:opacity .25s ease;}"
-    + ".scrim.on{opacity:1;visibility:visible;}"
-    + ".panel{position:fixed;left:0;right:0;bottom:0;z-index:2147483001;background:" + CREAM + ";border-top:3px solid " + GOLD + ";box-shadow:0 -18px 50px rgba(8,23,34,.32);transform:translateY(110%);transition:transform .35s cubic-bezier(.22,1,.36,1);max-height:92vh;overflow-y:auto;}"
+    // No-bloqueante: sin scrim de fondo — el resto de la página queda
+    // interactuable (CTAs, calculadora) mientras la persona decide sobre
+    // cookies. El gating de GTM/GA4/Meta Pixel ocurre igual en JS más abajo,
+    // independiente de si el panel bloquea visualmente o no.
+    + ".panel{position:fixed;left:0;right:0;bottom:0;z-index:2147483001;background:" + CREAM + ";border-top:3px solid " + GOLD + ";box-shadow:0 -18px 50px rgba(8,23,34,.32);transform:translateY(110%);transition:transform .35s cubic-bezier(.22,1,.36,1);max-height:70vh;overflow-y:auto;}"
     + ".panel.on{transform:translateY(0);}"
     + ".in{max-width:1120px;margin:0 auto;padding:30px 32px;}"
     + "h2{font-family:'Playfair Display',serif;font-size:24px;color:" + NAVY + ";margin:0 0 10px;font-weight:700;line-height:1.25;}"
@@ -108,13 +110,10 @@
   st.textContent = css;
   sh.appendChild(st);
 
-  var scrim = document.createElement("div");
-  scrim.className = "scrim";
   var panel = document.createElement("div");
   panel.className = "panel";
   panel.setAttribute("role", "dialog");
   panel.setAttribute("aria-label", "Consentimiento de cookies");
-  sh.appendChild(scrim);
   sh.appendChild(panel);
 
   var estado = { analitica: false, publicidad: false, comportamiento: false };
@@ -178,14 +177,11 @@
     var g = leer();
     if (g) { estado.analitica = !!g.analitica; estado.publicidad = !!g.publicidad; estado.comportamiento = !!g.comportamiento; }
     pintar();
-    requestAnimationFrame(function () { scrim.classList.add("on"); panel.classList.add("on"); });
+    requestAnimationFrame(function () { panel.classList.add("on"); });
   }
   function cerrar() {
-    scrim.classList.remove("on");
     panel.classList.remove("on");
   }
-
-  scrim.addEventListener("click", function () { if (leer()) cerrar(); });
 
   function montar() {
     document.body.appendChild(el);

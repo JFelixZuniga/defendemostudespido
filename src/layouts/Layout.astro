@@ -31,6 +31,10 @@ interface Props {
   padTop?: boolean;
   /** Breadcrumb trail for this page, root-relative ("Inicio" first). Renders BreadcrumbList JSON-LD when provided. */
   breadcrumbs?: { name: string; url: string }[];
+  /** ISO 8601 date (YYYY-MM-DD). When set (with dateModified), emits a WebPage node with both dates. */
+  datePublished?: string;
+  /** ISO 8601 date (YYYY-MM-DD) this page's content was last reviewed/updated. */
+  dateModified?: string;
 }
 
 const {
@@ -39,6 +43,8 @@ const {
   noindex = false,
   padTop = true,
   breadcrumbs,
+  datePublished,
+  dateModified,
 } = Astro.props;
 
 const fullTitle = title.includes('Defendemos Tu Despido') ? title : `${title} | Defendemos Tu Despido`;
@@ -65,6 +71,13 @@ const organizationSchema = {
   telephone: '+56976190738',
   email: contact.email,
   sameAs: [contact.instagramUrl],
+  // Data already published in the footer ("Lun – Vie, 8:30 a 18:30 hrs").
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:30',
+    closes: '18:30',
+  },
 };
 
 const websiteSchema = {
@@ -90,9 +103,30 @@ const breadcrumbSchema =
       }
     : null;
 
+// Emitted only on pages that pass both dates — content with time-sensitive
+// legal deadlines (service pages, calculator, legal pages) opts in explicitly
+// rather than every page getting an unverified date.
+const webPageSchema =
+  datePublished && dateModified
+    ? {
+        '@type': 'WebPage',
+        '@id': `${canonicalURL}#webpage`,
+        url: canonicalURL,
+        name: fullTitle,
+        isPartOf: { '@id': websiteId },
+        datePublished,
+        dateModified,
+      }
+    : null;
+
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [organizationSchema, websiteSchema, ...(breadcrumbSchema ? [breadcrumbSchema] : [])],
+  '@graph': [
+    organizationSchema,
+    websiteSchema,
+    ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+    ...(webPageSchema ? [webPageSchema] : []),
+  ],
 };
 ---
 

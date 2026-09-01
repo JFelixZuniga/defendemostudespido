@@ -1,4 +1,15 @@
 User-agent: *
 Allow: /
 
+# AI crawlers — already covered by the wildcard above, listed explicitly to
+# document intent (GEO / AI citation readiness).
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://www.defendemostudespido.cl/sitemap-index.xml

@@ -9,7 +9,17 @@ export default defineConfig({
   site: 'https://www.defendemostudespido.cl',
   trailingSlash: 'always',
   adapter: vercel(),
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Not per-page content dates (Astro's static build doesn't track those) —
+      // stamps every URL with the current build time so the sitemap at least
+      // reflects "last deployed", instead of shipping with no lastmod at all.
+      serialize(item) {
+        item.lastmod = new Date();
+        return item;
+      },
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

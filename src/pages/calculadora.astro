@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import { waLink } from '../data/services';
+import { CONTENT_REVIEWED_ISO, CONTENT_REVIEWED_DISPLAY } from '../data/meta';
 
 const heroPoints = [
   'Incluye años de servicio, mes de aviso, feriado proporcional y recargos legales.',
@@ -67,7 +68,12 @@ const WA_ICON = '<path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.
 const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
 ---
 
-<Layout title="¿Cómo calcular tu finiquito por despido? | Guía Legal Paso a Paso" description="Descubre cómo calcular tu finiquito en Chile. Aprende qué montos exige la ley por años de servicio, vacaciones proporcionales y mes de aviso. Evalúa tu caso gratis.">
+<Layout
+  title="¿Cómo calcular tu finiquito por despido? | Guía Legal Paso a Paso"
+  description="Descubre cómo calcular tu finiquito en Chile. Aprende qué montos exige la ley por años de servicio, vacaciones proporcionales y mes de aviso. Evalúa tu caso gratis."
+  datePublished={CONTENT_REVIEWED_ISO}
+  dateModified={CONTENT_REVIEWED_ISO}
+>
   <section class="bg-gradient-to-br from-navy-dark via-[#0a1c2a] to-navy-dark">
     <div class="mx-auto max-w-6xl px-6 py-14 pb-16 md:px-8">
       <div class="mb-6 flex items-center gap-2.5 text-sm text-[#8fa0a7]">
@@ -187,6 +193,10 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
               <div id="result-total" class="font-heading text-[44px] font-extrabold leading-none tracking-tight text-[#1f7a45]"></div>
               <p class="mt-2 text-[13px] leading-snug text-[#5a7563]">*Monto referencial. El resultado final puede variar.</p>
             </div>
+            <p class="mt-3.5 flex items-start gap-2 text-[12.5px] leading-snug text-[#8b9599]">
+              <Icon path='<circle cx="12" cy="12" r="9"/><path d="M12 16v-4"/><path d="M12 8h.01"/>' class="mt-0.5 h-4 w-4 flex-shrink-0" />
+              Esta calculadora entrega una estimación referencial basada en la fórmula legal general. No constituye asesoría legal ni un cálculo definitivo, y no genera una relación abogado-cliente. Confirma tu caso con un abogado antes de tomar decisiones.
+            </p>
             <div class="mt-3.5 overflow-hidden rounded-2xl border border-[#ece5d5]">
               <div class="bg-[#f4efe3] px-4.5 py-3 text-[12.5px] font-bold tracking-wide text-[#8f6a22]">DETALLE DEL CÁLCULO</div>
               <div id="result-rows" class="flex flex-col px-4.5 pb-2"></div>
@@ -214,6 +224,7 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
       <div class="mb-3.5 text-[13px] font-bold tracking-widest text-gold-dark">GUÍA LEGAL</div>
       <h2 class="mb-4.5 font-heading text-3xl font-bold leading-tight text-navy md:text-4xl">¿Cómo se calcula un finiquito de trabajo en Chile?</h2>
       <p class="text-lg leading-relaxed text-[#41525a]">El cálculo del finiquito depende exclusivamente de la causal legal de término de contrato aplicada por el empleador (Artículos 159, 160 y 161 del Código del Trabajo). Según la causal, el trabajador tendrá derecho al pago de los siguientes conceptos:</p>
+      <p class="mt-3 text-[13px] text-[#8b9599]">Contenido revisado: {CONTENT_REVIEWED_DISPLAY}</p>
     </div>
     <div class="grid grid-cols-1 items-start gap-5.5 md:grid-cols-2">
       {guide.map((g) => (
@@ -378,7 +389,8 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
     if (d2 <= d1) return showError('La fecha del despido debe ser posterior a la fecha de ingreso.');
     if (!selectedCausal) return showError('Selecciona la causal del despido.');
 
-    // Loading state (matches the source's fake 650ms "calculating" delay).
+    // Loading state — kept under 500ms so the layout shift when the result
+    // reveals stays inside Chrome's "recent input" CLS-exclusion window.
     btnLabel.textContent = 'CALCULANDO…';
     spinner.classList.remove('hidden');
     arrow.classList.add('hidden');
@@ -446,6 +458,6 @@ const CHECK_ICON = '<path d="m20 6-11 11-5-5"/>';
       spinner.classList.add('hidden');
       arrow.classList.remove('hidden');
       submitBtn.disabled = false;
-    }, 650);
+    }, 450);
   });
 </script>
